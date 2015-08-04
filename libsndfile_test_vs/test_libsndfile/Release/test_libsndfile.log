@@ -1,0 +1,59 @@
+﻿Build started 03-Aug-15 09:49:14.
+     1>Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\test_libsndfile.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /I"C:\Program Files (x86)\Mega-Nerd\libsndfile\include" /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt conv.cpp Filter.cpp MonoStereoConversion.cpp TestConvolutionSimpleFFTW.cpp
+         conv.cpp
+         Filter.cpp
+     1>Filter.cpp(31): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(32): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(111): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(261): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Filter.cpp(269): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(270): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(341): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(455): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Filter.cpp(456): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Filter.cpp(459): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Filter.cpp(467): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(471): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(477): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(480): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(493): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(500): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(506): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(509): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(523): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(530): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(531): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(532): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(535): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(536): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>Filter.cpp(576): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(578): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(641): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Filter.cpp(657): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(658): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(661): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>Filter.cpp(662): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+         MonoStereoConversion.cpp
+         TestConvolutionSimpleFFTW.cpp
+     1>TestConvolutionSimpleFFTW.cpp(43): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>TestConvolutionSimpleFFTW.cpp(44): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>TestConvolutionSimpleFFTW.cpp(48): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Release\test_libsndfile.exe" /NOLOGO /LIBPATH:C:\AdditionalLibraries\lib /LIBPATH:D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Release\test_libsndfile.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Release\test_libsndfile.lib" /MACHINE:X86 /SAFESEH Release\conv.obj
+         Release\Filter.obj
+         Release\MonoStereoConversion.obj
+         Release\TestConvolutionSimpleFFTW.obj
+         "..\..\..\libraries\fftw3_32bit\libfftw3-3.lib"
+         "..\..\..\libraries\fftw3_32bit\libfftw3f-3.lib"
+         "..\..\..\libraries\fftw3_32bit\libfftw3l-3.lib"
+         "libsndfile-1.lib"
+         Generating code
+         Finished generating code
+         test_libsndfile.vcxproj -> D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Release\test_libsndfile.exe
+     1>Done Building Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\test_libsndfile.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.84

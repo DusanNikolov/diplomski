@@ -1,0 +1,37 @@
+﻿Build started 04-Aug-15 11:48:34.
+     1>Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main_stereo.cpp MonoStereoConversion.cpp ReverbEffect.cpp
+         ReverbEffect.cpp
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(124): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(153): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(160): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(182): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(207): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(208): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(216): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(241): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(368): error C2065: 'in_sz' : undeclared identifier
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(369): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(373): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(381): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(382): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(383): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(384): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(385): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(386): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(388): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(390): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(402): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(409): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(420): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(432): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_ola\reverbeffect.cpp(433): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+         MonoStereoConversion.cpp
+         main_stereo.cpp
+         Generating Code...
+     1>Done Building Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" (Rebuild target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:03.65

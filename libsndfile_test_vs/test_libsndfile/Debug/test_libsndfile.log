@@ -1,0 +1,58 @@
+﻿Build started 03-Aug-15 10:44:35.
+     1>Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\test_libsndfile.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /I"C:\Program Files (x86)\Mega-Nerd\libsndfile\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt conv.cpp Filter.cpp MonoStereoConversion.cpp TestConvolutionSimpleFFTW.cpp
+         TestConvolutionSimpleFFTW.cpp
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\testconvolutionsimplefftw.cpp(43): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\testconvolutionsimplefftw.cpp(44): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\testconvolutionsimplefftw.cpp(48): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+         MonoStereoConversion.cpp
+         Filter.cpp
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(31): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(32): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(111): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(261): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(269): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(270): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(341): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(455): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(456): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(459): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(467): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(471): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(477): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(480): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(493): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(500): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(506): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(509): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(523): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(530): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(531): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(532): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(535): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(536): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(576): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(578): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(641): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(657): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(658): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(661): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\onedrive\fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\filter.cpp(662): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+         conv.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Debug\test_libsndfile.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\AdditionalLibraries\lib /LIBPATH:D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Debug\test_libsndfile.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Debug\test_libsndfile.lib" /MACHINE:X86 Debug\conv.obj
+         Debug\Filter.obj
+         Debug\MonoStereoConversion.obj
+         Debug\TestConvolutionSimpleFFTW.obj
+         "..\..\..\libraries\fftw3_32bit\libfftw3-3.lib"
+         "..\..\..\libraries\fftw3_32bit\libfftw3f-3.lib"
+         "..\..\..\libraries\fftw3_32bit\libfftw3l-3.lib"
+         "libsndfile-1.lib"
+         test_libsndfile.vcxproj -> D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\Debug\test_libsndfile.exe
+     1>Done Building Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_libsndfile\test_libsndfile.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.56

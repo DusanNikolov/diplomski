@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\wav_files">
+      <UniqueIdentifier>{edb4651e-6040-41ec-846a-ca206b4fe0ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\libsndfile">
+      <UniqueIdentifier>{6cbe62d7-70c3-42d7-8171-a9d6edd858bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\fftw3_32bit">
+      <UniqueIdentifier>{580c1b70-523a-4115-b50d-71fbcb2e9097}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="wav_files\cabinetIR.wav">
+      <Filter>Resource Files\wav_files</Filter>
+    </Media>
+    <Media Include="wav_files\guitar_clean.wav">
+      <Filter>Resource Files\wav_files</Filter>
+    </Media>
+    <Media Include="wav_files\LongEchoHallIR.wav">
+      <Filter>Resource Files\wav_files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MonoStereoConversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libsndfile-1.lib">
+      <Filter>Resource Files\libsndfile</Filter>
+    </Library>
+    <Library Include="..\..\..\libraries\fftw3_32bit\libfftw3-3.lib">
+      <Filter>Resource Files\fftw3_32bit</Filter>
+    </Library>
+    <Library Include="..\..\..\libraries\fftw3_32bit\libfftw3f-3.lib">
+      <Filter>Resource Files\fftw3_32bit</Filter>
+    </Library>
+    <Library Include="..\..\..\libraries\fftw3_32bit\libfftw3l-3.lib">
+      <Filter>Resource Files\fftw3_32bit</Filter>
+    </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libsndfile-1.dll">
+      <Filter>Resource Files\libsndfile</Filter>
+    </None>
+    <None Include="..\..\..\libraries\fftw3_32bit\libfftw3-3.dll">
+      <Filter>Resource Files\fftw3_32bit</Filter>
+    </None>
+    <None Include="..\..\..\libraries\fftw3_32bit\libfftw3f-3.dll">
+      <Filter>Resource Files\fftw3_32bit</Filter>
+    </None>
+    <None Include="..\..\..\libraries\fftw3_32bit\libfftw3l-3.dll">
+      <Filter>Resource Files\fftw3_32bit</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="conv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoStereoConversion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestConvolutionSimpleFFTW.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Filter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
