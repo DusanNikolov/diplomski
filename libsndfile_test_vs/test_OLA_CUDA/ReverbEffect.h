@@ -31,12 +31,7 @@
 #include <Windows.h>
 
 #include <sndfile.hh>
-
-#include <cuda_runtime_api.h>
-#include <cufft.h>
-#include <cufftw.h>
-
-#include "device_functions.cuh"
+#include <fftw3.h>
 
 #define MONO 1
 #define STEREO 2
@@ -46,11 +41,11 @@
 #define L 4096
 
 
-class CUDAReverbEffect {
+class ReverbEffect {
 
 public:
-	CUDAReverbEffect(char *in_fn, char *ir_fn, char *out_fn);
-	~CUDAReverbEffect();
+	ReverbEffect(char *in_fn, char *ir_fn, char *out_fn);
+	~ReverbEffect();
 
 	void initialize(char *in_fn, char *ir_fn, char *out_fn);
 
@@ -71,11 +66,11 @@ private:
 	void OLA_mono();
 	void OLA_stereo();
 
-	void DFT(float *in_buf, long in_len, float *in_fft, Complex *OUT_FFT);
+	void DFT(float *in_buf, long in_len, float *in_fft, fftwf_complex *OUT_FFT);
 	void IFT();
 	//remember! dst MUST be different from both src1 & src2
-	void complexMul(Complex *DST_L, Complex *DST_R, Complex *SRC1_L, Complex *SRC1_R, long src1_off,
-		Complex *SRC2_L, Complex *SRC_R, long src2_off);
+	void complexMul(fftwf_complex *DST_L, fftwf_complex *DST_R, fftwf_complex *SRC1_L, fftwf_complex *SRC1_R, long src1_off,
+		fftwf_complex *SRC2_L, fftwf_complex *SRC_R, long src2_off);
 
 private:
 	int channels,
@@ -90,8 +85,8 @@ private:
 	//fftw_handles (r2c/c2r fft is used here)
 	long IR_blocks;
 	float *in_src_l, *in_src_r;
-	Complex *OUT_SRC_L, *OUT_SRC_R, *IN_L, *IN_R, *IR_L, *IR_R;
-	cufftHandle DFFT, IFFT;
+	fftwf_complex *OUT_SRC_L, *OUT_SRC_R, *IN_L, *IN_R, *IR_L, *IR_R;
+	fftwf_plan DFFT, IFFT;
 
 	//buffers
 	long ir_sz;

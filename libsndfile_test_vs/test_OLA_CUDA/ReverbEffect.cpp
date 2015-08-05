@@ -1,12 +1,12 @@
-//Method definitions of CUDAReverbEffect class
+//Method definitions of ReverbEffect class
 
-#include "CUDAReverbEffect.h"
+#include "ReverbEffect.h"
 #include "MonoStereoConversion.h"
 
 #include <iostream>
 using namespace std;
 
-CUDAReverbEffect::CUDAReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
+ReverbEffect::ReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
 
 	QueryPerformanceFrequency(&frequency);
 
@@ -14,7 +14,7 @@ CUDAReverbEffect::CUDAReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
 
 }
 
-CUDAReverbEffect::~CUDAReverbEffect() {
+ReverbEffect::~ReverbEffect() {
 	
 	delete cache; delete cache_l; delete cache_r;
 	
@@ -35,23 +35,15 @@ CUDAReverbEffect::~CUDAReverbEffect() {
 		delete ir_l;
 	}
 
-	cufftDestroy(DFFT);
-	cufftDestroy(IFFT);
-	//fftwf_destroy_plan(DFFT);
-	//fftwf_destroy_plan(IFFT);
+	fftwf_destroy_plan(DFFT);
+	fftwf_destroy_plan(IFFT);
 
-	cudaFree(IR_R);
-	cudaFree(IR_L);
-	cudaFree(IN_R);
-	cudaFree(IN_L);
-	cudaFree(OUT_SRC_R);
-	cudaFree(OUT_SRC_L);
-	//fftwf_free(IR_R);
-	//fftwf_free(IR_L);
-	//fftwf_free(IN_R);
-	//fftwf_free(IN_L);
-	//fftwf_free(OUT_SRC_R);
-	//fftwf_free(OUT_SRC_L);
+	fftwf_free(IR_R);
+	fftwf_free(IR_L);
+	fftwf_free(IN_R);
+	fftwf_free(IN_L);
+	fftwf_free(OUT_SRC_R);
+	fftwf_free(OUT_SRC_L);
 
 	delete in_src_l; delete in_src_r;
 
@@ -59,7 +51,7 @@ CUDAReverbEffect::~CUDAReverbEffect() {
 
 }
 
-void CUDAReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
+void ReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
 	LARGE_INTEGER start_init_files, end_init_files;
 	LARGE_INTEGER start_init_fftws, end_init_fftws;
 	LARGE_INTEGER start_init_inout, end_init_inout;
@@ -109,7 +101,7 @@ void CUDAReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
 
 }
 
-void CUDAReverbEffect::applyReverb() {
+void ReverbEffect::applyReverb() {
 
 	if (STEREO == channels) {
 		OLA_stereo();
@@ -120,7 +112,7 @@ void CUDAReverbEffect::applyReverb() {
 
 }
 
-void CUDAReverbEffect::writeOutNormalized() {
+void ReverbEffect::writeOutNormalized() {
 
 	if (STEREO == channels) {
 		float scale_l = 1 / max_l,
@@ -143,7 +135,7 @@ void CUDAReverbEffect::writeOutNormalized() {
 
 }
 
-void CUDAReverbEffect::OLA_mono() {
+void ReverbEffect::OLA_mono() {
 
 	cache = new float[N * IR_blocks];
 	memset(cache, 0, sizeof(float)* (N * IR_blocks));
@@ -196,7 +188,7 @@ void CUDAReverbEffect::OLA_mono() {
 
 }
 
-void CUDAReverbEffect::OLA_stereo() {
+void ReverbEffect::OLA_stereo() {
 
 	//redundant for now... perhaps use this to lower the complexity...
 	cache = new float[N * IR_blocks];
@@ -255,7 +247,7 @@ void CUDAReverbEffect::OLA_stereo() {
 
 }
 
-void CUDAReverbEffect::DFT(float *in_buf, long in_len, float *in_fft, Complex *OUT_FFT) {
+void ReverbEffect::DFT(float *in_buf, long in_len, float *in_fft, fftwf_complex *OUT_FFT) {
 
 	memset(in_fft, 0, sizeof(float)* N);
 	memcpy(in_fft, in_buf, sizeof(float)*in_len);
@@ -264,7 +256,7 @@ void CUDAReverbEffect::DFT(float *in_buf, long in_len, float *in_fft, Complex *O
 
 }
 
-void CUDAReverbEffect::IFT() {
+void ReverbEffect::IFT() {
 
 	memset(in_src_l, 0, sizeof(float)* N);
 	fftwf_execute_dft_c2r(IFFT, OUT_SRC_L, in_src_l);
@@ -276,65 +268,64 @@ void CUDAReverbEffect::IFT() {
 
 }
 
-//this whole thing should be ported to the GPU for execution!!!
-void CUDAReverbEffect::complexMul(Complex *DST_L, Complex *DST_R, Complex *SRC1_L, Complex *SRC1_R, long src1_off,
-	Complex *SRC2_L, Complex *SRC2_R, long src2_off) {
+void ReverbEffect::complexMul(fftwf_complex *DST_L, fftwf_complex *DST_R, fftwf_complex *SRC1_L, fftwf_complex *SRC1_R, long src1_off,
+	fftwf_complex *SRC2_L, fftwf_complex *SRC2_R, long src2_off) {
 	
 	for (long k = 0; k < N / 2 + 1; k++) {
 		
 		//L1L2
-		DST_L[k].x = (SRC1_L[src1_off * N + k].x * SRC2_L[src2_off * N + k].x)
-			- (SRC1_L[src1_off * N + k].y * SRC2_L[src2_off * N + k].y);
+		DST_L[k][0] = (SRC1_L[src1_off * N + k][0] * SRC2_L[src2_off * N + k][0])
+			- (SRC1_L[src1_off * N + k][1] * SRC2_L[src2_off * N + k][1]);
 
-		DST_L[k].y = (SRC1_L[src1_off * N + k].y * SRC2_L[src2_off * N + k].x)
-			+ (SRC1_L[src1_off * N + k].x * SRC2_L[src2_off * N + k].y);
+		DST_L[k][1] = (SRC1_L[src1_off * N + k][1] * SRC2_L[src2_off * N + k][0])
+			+ (SRC1_L[src1_off * N + k][0] * SRC2_L[src2_off * N + k][1]);
 
 		if (STEREO == channels) {
 			if (STEREO == ir->channels()) {
 				//TrueStereo
 
 				//L1R2
-				DST_L[k].x += (SRC1_L[src1_off * N + k].x * SRC2_R[src2_off * N + k].x)
-					- (SRC1_L[src1_off * N + k].y * SRC2_R[src2_off * N + k].y);
+				DST_L[k][0] += (SRC1_L[src1_off * N + k][0] * SRC2_R[src2_off * N + k][0])
+					- (SRC1_L[src1_off * N + k][1] * SRC2_R[src2_off * N + k][1]);
 
-				DST_L[k].y += (SRC1_L[src1_off * N + k].y * SRC2_R[src2_off * N + k].x)
-					+ (SRC1_L[src1_off * N + k].x * SRC2_R[src2_off * N + k].y);
+				DST_L[k][1] += (SRC1_L[src1_off * N + k][1] * SRC2_R[src2_off * N + k][0])
+					+ (SRC1_L[src1_off * N + k][0] * SRC2_R[src2_off * N + k][1]);
 				
-				DST_L[k].x /= 2;
-				DST_L[k].y /= 2;
+				DST_L[k][0] /= 2;
+				DST_L[k][1] /= 2;
 
 				//R1L2
-				DST_L[k].x = (SRC1_R[src1_off * N + k].x * SRC2_L[src2_off * N + k].x)
-					- (SRC1_R[src1_off * N + k].y * SRC2_L[src2_off * N + k].y);
+				DST_L[k][0] = (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][0])
+					- (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][1]);
 
-				DST_L[k].y = (SRC1_R[src1_off * N + k].y * SRC2_L[src2_off * N + k].x)
-					+ (SRC1_R[src1_off * N + k].x * SRC2_L[src2_off * N + k].y);
+				DST_L[k][1] = (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][0])
+					+ (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][1]);
 
 				//R1R2
-				DST_R[k].x = (SRC1_R[src1_off * N + k].x * SRC2_R[src2_off * N + k].x)
-					- (SRC1_R[src1_off * N + k].y * SRC2_R[src2_off * N + k].y);
+				DST_R[k][0] = (SRC1_R[src1_off * N + k][0] * SRC2_R[src2_off * N + k][0])
+					- (SRC1_R[src1_off * N + k][1] * SRC2_R[src2_off * N + k][1]);
 
-				DST_R[k].y = (SRC1_R[src1_off * N + k].y * SRC2_R[src2_off * N + k].x)
-					+ (SRC1_R[src1_off * N + k].x * SRC2_R[src2_off * N + k].y);
+				DST_R[k][1] = (SRC1_R[src1_off * N + k][1] * SRC2_R[src2_off * N + k][0])
+					+ (SRC1_R[src1_off * N + k][0] * SRC2_R[src2_off * N + k][1]);
 			
-				DST_R[k].x /= 2;
-				DST_R[k].y /= 2;
+				DST_R[k][0] /= 2;
+				DST_R[k][1] /= 2;
 			}
 			else {
 				//QuasiStereo
 				//R1L2
-				DST_R[k].x = (SRC1_R[src1_off * N + k].x * SRC2_L[src2_off * N + k].x)
-					- (SRC1_R[src1_off * N + k].y * SRC2_L[src2_off * N + k].y);
+				DST_R[k][0] = (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][0])
+					- (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][1]);
 
-				DST_R[k].y = (SRC1_R[src1_off * N + k].y * SRC2_L[src2_off * N + k].x)
-					+ (SRC1_R[src1_off * N + k].x * SRC2_L[src2_off * N + k].y);
+				DST_R[k][1] = (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][0])
+					+ (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][1]);
 			}
 		}
 		
 	}
 }
 
-void CUDAReverbEffect::init_files(char *in_fn, char *ir_fn, char *out_fn) {
+void ReverbEffect::init_files(char *in_fn, char *ir_fn, char *out_fn) {
 
 	in = new SndfileHandle(in_fn);
 	channels = in->channels();
@@ -344,40 +335,35 @@ void CUDAReverbEffect::init_files(char *in_fn, char *ir_fn, char *out_fn) {
 
 }
 
-void CUDAReverbEffect::init_fftws() {
+void ReverbEffect::init_fftws() {
 
 	IR_blocks = (long)ceil((double)ir->frames() / M);
 
 	in_src_l = new float[N];
 	in_src_r = new float[N];
+	OUT_SRC_L = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex)* N);
+	OUT_SRC_R = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex)* N);
+	IN_L = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex)* N);
+	IN_R = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex)* N);
+	IR_L = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex)* IR_blocks * N);
+	IR_R = (fftwf_complex*)fftwf_malloc(sizeof(fftwf_complex)* IR_blocks * N);
 
-	//Allocate host memory for the buffers !!Device memory should also be alocated!!
-	//Think about the Host->Device transfers!!!
-	OUT_SRC_L = (Complex*)malloc(sizeof(Complex)* N);
-	OUT_SRC_R = (Complex*)malloc(sizeof(Complex)* N);
-	IN_L = (Complex*)malloc(sizeof(Complex)* N);
-	IN_R = (Complex*)malloc(sizeof(Complex)* N);
-	IR_L = (Complex*)malloc(sizeof(Complex)* IR_blocks * N);
-	IR_R = (Complex*)malloc(sizeof(Complex)* IR_blocks * N);
 
 	memset(in_src_l, 0, sizeof(float)* N);
 	memset(in_src_r, 0, sizeof(float)* N);
-	memset(OUT_SRC_L, 0, sizeof(Complex)* N);
-	memset(OUT_SRC_R, 0, sizeof(Complex)* N);
-	memset(IN_L, 0, sizeof(Complex)* N);
-	memset(IN_R, 0, sizeof(Complex)* N);
-	memset(IR_L, 0, sizeof(Complex)* IR_blocks * N);
-	memset(IR_R, 0, sizeof(Complex)* IR_blocks * N);
+	memset(OUT_SRC_L, 0, sizeof(fftwf_complex)* N);
+	memset(OUT_SRC_R, 0, sizeof(fftwf_complex)* N);
+	memset(IN_L , 0, sizeof(fftwf_complex)* N);
+	memset(IN_R, 0, sizeof(fftwf_complex)* N);
+	memset(IR_L, 0, sizeof(fftwf_complex)* IR_blocks * N);
+	memset(IR_R, 0, sizeof(fftwf_complex)* IR_blocks * N);
 
-	//batch (last arg) is 1 for now, when you get everything working, try to switch to batch FFT
-	//batch FFT could be made for init IR and IN (if not enough memory, only for the IR)
-	//and if enough device memory perhaps batched IFFT for the result?
-	checkCudaErrors(cufftPlan1d(&DFFT, N, CUFFT_R2C, 1));
-	checkCudaErrors(cufftPlan1d(&IFFT, N, CUFFT_C2R, 1));
+	DFFT = fftwf_plan_dft_r2c_1d(N, in_src_l, OUT_SRC_L, FFTW_ESTIMATE);
+	IFFT = fftwf_plan_dft_c2r_1d(N, OUT_SRC_L, in_src_l, FFTW_ESTIMATE);
 
 }
 
-void CUDAReverbEffect::init_in_out_mono() {
+void ReverbEffect::init_in_out_mono() {
 	
 	in_sz = in->frames();
 	in_l = new float[in_sz];
@@ -390,13 +376,13 @@ void CUDAReverbEffect::init_in_out_mono() {
 
 }
 
-void CUDAReverbEffect::init_in_out_stereo() {
+void ReverbEffect::init_in_out_stereo() {
 
 	in_sz = in->frames() * 2;
 	in_stereo = new float[in_sz];
 	in_l = new float[in_sz / 2];
 	in_r = new float[in_sz / 2];
-	memset(in_stereo, 0, sizeof(float)* in_sz);
+	memset(in_stereo, 0, sizeof(float) * in_sz);
 	memset(in_l, 0, sizeof(float)* in->frames());
 	memset(in_r, 0, sizeof(float)* in->frames());
 	in->readf(in_stereo, in->frames());
@@ -412,7 +398,7 @@ void CUDAReverbEffect::init_in_out_stereo() {
 
 }
 
-void CUDAReverbEffect::init_ir_mono() {
+void ReverbEffect::init_ir_mono() {
 
 	ir_sz = ir->frames();
 	ir_l = new float[ir_sz];
@@ -430,7 +416,7 @@ void CUDAReverbEffect::init_ir_mono() {
 
 }
 
-void CUDAReverbEffect::init_ir_stereo() {
+void ReverbEffect::init_ir_stereo() {
 
 	ir_sz = ir->frames() * 2;
 	ir_stereo = new float[ir_sz];
