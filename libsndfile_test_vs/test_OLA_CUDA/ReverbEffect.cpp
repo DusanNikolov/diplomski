@@ -16,7 +16,7 @@ ReverbEffect::ReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
 
 ReverbEffect::~ReverbEffect() {
 	
-	delete cache; delete cache_l; delete cache_r;
+	//delete cache; delete cache_l; delete cache_r;
 	
 	if (STEREO == channels) {
 		delete in_stereo; delete in_l; delete in_r;

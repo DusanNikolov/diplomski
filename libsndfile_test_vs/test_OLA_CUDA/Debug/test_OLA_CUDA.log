@@ -1,21 +1,48 @@
-﻿Build started 04-Aug-15 15:48:47.
-     1>Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA_CUDA\test_OLA_CUDA.vcxproj" on node 2 (Build target(s)).
-     1>AddCudaCompileDeps:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" /I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I. /FIcuda_runtime.h /c D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA_CUDA\kernel.cu 
-       CudaBuild:
-         Compiling CUDA source file kernel.cu...
-         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmpf6c23894fd09493a9cdee57da4f4c483.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA_CUDA\kernel.cu"
-         
-         D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" 
-     1>D:/OneDrive/Fakultet/diplomski/development/testiranje_cli/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(24): error : identifier "SIGNAL_SIZE" is undefined
-     1>D:/OneDrive/Fakultet/diplomski/development/testiranje_cli/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(34): error : identifier "FILTER_KERNEL_SIZE" is undefined
-     1>D:/OneDrive/Fakultet/diplomski/development/testiranje_cli/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(94): error : identifier "Convolve" is undefined
-     1>D:/OneDrive/Fakultet/diplomski/development/testiranje_cli/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(152): warning : function "ComplexAdd" was declared but never referenced
-         kernel.cu
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\BuildCustomizations\CUDA 7.0.targets(593,9): error MSB3721: The command ""C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" -I"C:\ProgramData\NVIDIA Corporation\CUDA Samples\v7.0\common\inc" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA_CUDA\kernel.cu"" exited with code 2.
-     1>Done Building Project "D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA_CUDA\test_OLA_CUDA.vcxproj" (Build target(s)) -- FAILED.
+﻿Build started 05-Aug-15 11:39:42.
+     1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\test_OLA_CUDA.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp MonoStereoConversion.cpp ReverbEffect.cpp
+         ReverbEffect.cpp
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(124): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(153): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(160): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(182): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(207): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(208): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(216): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(241): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(368): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(373): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(381): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(386): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(387): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(391): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(403): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(410): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(421): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(433): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\reverbeffect.cpp(434): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+         MonoStereoConversion.cpp
+         main.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\test_OLA_CUDA.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\AdditionalLibraries\lib /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\test_OLA_CUDA.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\test_OLA_CUDA.lib" /MACHINE:X86 Debug\main.obj
+         Debug\MonoStereoConversion.obj
+         Debug\ReverbEffect.obj
+         "C:\AdditionalLibraries\lib\libfftw3-3.lib"
+         "C:\AdditionalLibraries\lib\libfftw3f-3.lib"
+         "libsndfile-1.lib"
+         test_OLA_CUDA.vcxproj -> D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\test_OLA_CUDA.exe
+       PostBuildEvent:
+         echo copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\cudart*.dll" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\"
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\cudart*.dll" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\"
+         :VCEnd
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\cudart*.dll" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\"
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\cudart32_70.dll
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\cudart64_70.dll
+                 2 file(s) copied.
+     1>Done Building Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\test_OLA_CUDA.vcxproj" (Rebuild target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:06.36
+Time Elapsed 00:00:02.78
