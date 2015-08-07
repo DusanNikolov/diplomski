@@ -6,11 +6,11 @@ using namespace std;
 
 #include <sndfile.hh>
 
-#include "ReverbEffect.h"
+#include "CUDAReverbEffect.h"
 
 int main(int* argc, char** argv) {
 
-	ReverbEffect* effect = new ReverbEffect(argv[1], argv[2], argv[3]);
+	CUDAReverbEffect* effect = new CUDAReverbEffect(argv[1], argv[2], argv[3]);
 
 	effect->applyReverb();
 	effect->writeOutNormalized();

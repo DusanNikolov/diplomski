@@ -15,27 +15,12 @@
     <ClInclude Include="MonoStereoConversion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="device_functions.cuh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CUDAReverbEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="libsndfile-1.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="libsndfile-1.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
-    <CudaCompile Include="kernel.cu">
-      <Filter>Source Files</Filter>
-    </CudaCompile>
+    <ClInclude Include="device_functions.cuh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MonoStereoConversion.cpp">
@@ -47,5 +32,10 @@
     <ClCompile Include="CUDAReverbEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="kernel.cu">
+      <Filter>Source Files</Filter>
+    </CudaCompile>
   </ItemGroup>
 </Project>
