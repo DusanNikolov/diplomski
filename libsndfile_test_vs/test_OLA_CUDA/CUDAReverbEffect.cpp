@@ -559,6 +559,25 @@ int CUDAReverbEffect::init_fftws() {
 		cufftDestroy(inDFFT);
 		return -1;
 	}
+	cufftStatus = cufftPlan1d(&irDFFT, N, CUFFT_R2C, IR_blocks);
+	if (cufftStatus != CUFFT_SUCCESS) {
+		cerr << "cufftPlan1d(irDFFT) failed!" << endl;
+		delete in_dev_l;
+		delete in_dev_r;
+		cudaFree(in_dev_l);
+		cudaFree(in_dev_r);
+		cudaFree(cache_l);
+		cudaFree(OUT_SRC_L);
+		cudaFree(OUT_SRC_R);
+		cudaFree(IN_L);
+		cudaFree(IN_R);
+		cudaFree(IR_L);
+		cudaFree(IR_R);
+		cudaFree(cache_padded_l);
+		cufftDestroy(inDFFT);
+		cufftDestroy(irDFFT);
+		return -1;
+	}
 	cufftStatus = cufftPlan1d(&IFFT, N, CUFFT_C2R, IR_blocks);
 	if (cufftStatus != CUFFT_SUCCESS) {
 		cerr << "cufftPlan1d(IFFT) failed!" << endl;
@@ -575,6 +594,7 @@ int CUDAReverbEffect::init_fftws() {
 		cudaFree(IR_R);
 		cudaFree(cache_padded_l);
 		cufftDestroy(inDFFT);
+		cufftDestroy(irDFFT);
 		cufftDestroy(IFFT);
 	}
 #pragma endregion
@@ -630,10 +650,10 @@ void CUDAReverbEffect::init_ir_mono() {
 
 	for (long i = 0; i < ir_sz; i += M) {
 		if (i + M > ir->frames()) {
-			DFT(ir_l + i, ir->frames() - i, in_dev_l, IR_L + (i / M) * N, N);
+			DFT(ir_l + i, ir->frames() - i, in_dev_l, IR_L + (i / M) * (N / 2 + 1), N);
 		}
 		else {
-			DFT(ir_l + i, M, in_dev_l, IR_L + (i / M) * N, N);
+			DFT(ir_l + i, M, in_dev_l, IR_L + (i / M) * (N / 2 + 1), N);
 		}
 	}
 
