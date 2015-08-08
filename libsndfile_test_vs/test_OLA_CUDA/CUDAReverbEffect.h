@@ -72,13 +72,10 @@ private:
 	int init_fftws();
 
 	bool OLA_mono();
-	void OLA_stereo();
+	bool OLA_stereo();
 
 	bool DFT(float *in_host, long in_len, cufftReal *in_dev, cufftComplex *OUT_DEV, int fft_size);
 	bool IFT();
-	//remember! dst MUST be different from both src1 & src2
-	void complexMul(cufftComplex *DST_L, cufftComplex *DST_R, cufftComplex *SRC1_L, cufftComplex *SRC1_R, long src1_off,
-		cufftComplex *SRC2_L, cufftComplex *SRC_R, long src2_off);
 
 private:
 	int channels,
@@ -94,8 +91,8 @@ private:
 	long IR_blocks;
 	float *in_src_l, *in_src_r;
 	cufftReal *in_dev_l, *in_dev_r;
-	cufftReal *cache, *cache_l, *cache_r, *temp_cache;
-	cufftReal *cache_padded_l;
+	cufftReal *cache_l, *cache_r, *temp_cache_l, *temp_cache_r;
+	cufftReal *cache_padded_l, *cache_padded_r;
 	cufftComplex *OUT_SRC_L, *OUT_SRC_R, *IN_L, *IN_R, *IR_L, *IR_R;
 
 	cufftHandle inDFFT, irDFFT, IFFT;

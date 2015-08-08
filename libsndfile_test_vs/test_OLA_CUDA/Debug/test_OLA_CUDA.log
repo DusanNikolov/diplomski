@@ -1,7 +1,7 @@
-﻿Build started 08-Aug-15 15:22:53.
+﻿Build started 08-Aug-15 20:23:27.
      1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\test_OLA_CUDA.vcxproj" on node 2 (Rebuild target(s)).
      1>CudaClean:
-         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmpcdde1671dc9240e8bcb19938d0b1442c.cmd"
+         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp5bd81c2567674a85915f632cd7496cff.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile   -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" -clean
          
          D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile   -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" -clean 
@@ -10,45 +10,41 @@
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /D_DEBUG /D_CONSOLE /D_MBCS /IC:\AdditionalLibraries\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I. /FIcuda_runtime.h /c D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu 
        CudaBuild:
          Compiling CUDA source file kernel.cu...
-         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp0601e6d6186d452d99d9825ced5413f5.cmd"
+         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp67d866f8ecd9496ea79e7c26563d513e.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu"
          
          D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" 
-     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(75): warning : variable "numThreads" was declared but never referenced
-     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(97): warning : variable "numThreads" was declared but never referenced
+     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(116): warning : variable "numThreads" was declared but never referenced
+     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(138): warning : variable "numThreads" was declared but never referenced
      1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(17): warning : function "ComplexAdd" was declared but never referenced
-     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(59): warning : function "ComplexPointwiseMulAndScale" was declared but never referenced
-     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(75): warning : variable "numThreads" was declared but never referenced
-     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(97): warning : variable "numThreads" was declared but never referenced
+     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(44): warning : function "ComplexPointwiseMulAndScale" was declared but never referenced
+     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(116): warning : variable "numThreads" was declared but never referenced
+     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(138): warning : variable "numThreads" was declared but never referenced
      1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(17): warning : function "ComplexAdd" was declared but never referenced
-     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(59): warning : function "ComplexPointwiseMulAndScale" was declared but never referenced
+     1>D:/Documents/GitHub/Diplomski/libsndfile_test_vs/test_OLA_CUDA/kernel.cu(44): warning : function "ComplexPointwiseMulAndScale" was declared but never referenced
          kernel.cu
        ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp MonoStereoConversion.cpp CUDAReverbEffect.cpp
          CUDAReverbEffect.cpp
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(125): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(147): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(204): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(205): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(213): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(238): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(364): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(587): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(592): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(600): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(605): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(606): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(610): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(622): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(633): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(644): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(656): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(657): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(127): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(149): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(198): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(199): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(328): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(708): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(713): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(721): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(726): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(727): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(731): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(743): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(754): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(765): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(777): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(778): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
          MonoStereoConversion.cpp
          main.cpp
          Generating Code...
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(290): warning C4715: 'CUDAReverbEffect::IFT' : not all control paths return a value
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(273): warning C4715: 'CUDAReverbEffect::DFT' : not all control paths return a value
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\test_OLA_CUDA.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\Win32" /LIBPATH:C:\AdditionalLibraries\lib /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\lib\Win32" "libsndfile-1.lib" cufft.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\test_OLA_CUDA.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Debug\test_OLA_CUDA.lib" /MACHINE:X86 Debug\kernel.cu.obj
          Debug\main.obj
@@ -67,4 +63,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:20.43
+Time Elapsed 00:00:15.53

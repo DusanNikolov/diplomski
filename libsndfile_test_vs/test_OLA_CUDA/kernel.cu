@@ -40,21 +40,6 @@ static __device__ __host__ inline cufftComplex ComplexMul(cufftComplex a, cufftC
 	return c;
 }
 
-
-static __global__ void ComplexMultiplyMono(cufftComplex *out, const cufftComplex *ir, const cufftComplex *in, int ir_sz, int in_sz) {
-
-	const int numThreads = blockDim.x * gridDim.x;
-	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
-
-	for (int i = threadID; i < ir_sz; i += numThreads) {
-		if ((i % in_sz) < (in_sz / 2 + 1)) {
-			out[i].x = ir[i].x * in[i % in_sz].x - ir[i].y * in[i % in_sz].y;
-			out[i].y = ir[i].x * in[i % in_sz].y + ir[i].y * in[i % in_sz].x;
-		}
-	}
-
-}
-
 // Complex pointwise multiplication
 static __global__ void ComplexPointwiseMulAndScale(cufftComplex *a, const cufftComplex *b, int size, float scale)
 {
@@ -65,6 +50,62 @@ static __global__ void ComplexPointwiseMulAndScale(cufftComplex *a, const cufftC
 	{
 		a[i] = ComplexScale(ComplexMul(a[i], b[i]), scale);
 	}
+}
+
+
+static __global__ void ComplexMultiplyMono(cufftComplex *out, const cufftComplex *ir, const cufftComplex *in, int ir_sz, int in_sz) {
+
+	const int numThreads = blockDim.x * gridDim.x;
+	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
+
+	for (int i = threadID; i < ir_sz; i += numThreads) {
+		out[i].x = ir[i].x * in[i % in_sz].x - ir[i].y * in[i % in_sz].y;
+		out[i].y = ir[i].x * in[i % in_sz].y + ir[i].y * in[i % in_sz].x;
+	}
+
+}
+
+static __global__ void ComplexMultiplyStereo(cufftComplex *out_l, const cufftComplex *ir_l, const cufftComplex *in_l,
+	cufftComplex *out_r, const cufftComplex *ir_r, const cufftComplex *in_r, int ir_sz, int in_sz, int trueStereo) {
+
+	const int numThreads = blockDim.x * gridDim.x;
+	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
+
+	for (int i = threadID; i < ir_sz; i += numThreads) {
+
+		//L-L
+		out_l[i].x = ir_l[i].x * in_l[i % in_sz].x - ir_l[i].y * in_l[i % in_sz].y;
+		out_l[i].y = ir_l[i].x * in_l[i % in_sz].y + ir_l[i].y * in_l[i % in_sz].x;
+	
+		if (trueStereo == 1) {
+			//L-R
+			out_l[i].x = ir_r[i].x * in_l[i % in_sz].x - ir_r[i].y * in_l[i % in_sz].y;
+			out_l[i].y = ir_r[i].x * in_l[i % in_sz].y + ir_r[i].y * in_l[i % in_sz].x;
+
+			out_l[i].x /= 2;
+			out_l[i].y /= 2;
+
+			//R-L
+			out_r[i].x = ir_l[i].x * in_r[i % in_sz].x - ir_l[i].y * in_r[i % in_sz].y;
+			out_r[i].y = ir_l[i].x * in_r[i % in_sz].y + ir_l[i].y * in_r[i % in_sz].x;
+
+			//R-R
+			out_r[i].x = ir_r[i].x * in_r[i % in_sz].x - ir_r[i].y * in_r[i % in_sz].y;
+			out_r[i].y = ir_r[i].x * in_r[i % in_sz].y + ir_r[i].y * in_r[i % in_sz].x;
+
+			out_r[i].x /= 2;
+			out_r[i].y /= 2;
+
+		}
+		else {
+			//Quasi stereo
+			//R-L
+			out_r[i].x = ir_l[i].x * in_r[i % in_sz].x - ir_l[i].y * in_r[i % in_sz].y;
+			out_r[i].y = ir_l[i].x * in_r[i % in_sz].y + ir_l[i].y * in_r[i % in_sz].x;
+
+		}
+	}
+
 }
 
 
@@ -123,9 +164,16 @@ static __global__ void Normalize(cufftReal *vector, cufftReal max, int size) {
 
 void ComplexMultiplyMono(dim3 gridDim, dim3 blockDim, cufftComplex *out, const cufftComplex *ir, const cufftComplex *in, int ir_sz, int in_sz) {
 
-	ComplexMultiplyMono<<<gridDim, blockDim>>>(out, ir, in, ir_sz, in_sz);
+	ComplexMultiplyMono << <gridDim, blockDim >> >(out, ir, in, ir_sz, in_sz);
 
 }
+void ComplexMultiplyStereo(dim3 gridDim, dim3 blockDim, cufftComplex *out_l, const cufftComplex *ir_l, const cufftComplex *in_l,
+	cufftComplex *out_r, const cufftComplex *ir_r, const cufftComplex *in_r, int ir_sz, int in_sz, int trueStereo) {
+
+	ComplexMultiplyStereo<<<gridDim, blockDim>>>(out_l, ir_l, in_l, out_r, ir_r, in_r, ir_sz, in_sz, trueStereo);
+
+}
+
 void OverlapAdd(dim3 gridDim, dim3 blockDim, cufftReal *dst, int dst_sz, const cufftReal *src, int src_sz, int M, int N, int odd) {
 
 	OverlapAdd<<<gridDim, blockDim>>>(dst, dst_sz, src, src_sz, M, N, odd);

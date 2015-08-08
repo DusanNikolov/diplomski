@@ -21,6 +21,9 @@ static __global__ void BackupCache(cufftReal *, cufftReal *, int, int);
 static __global__ void Normalize(cufftReal *, cufftReal, int);
 
 void ComplexMultiplyMono(dim3, dim3, cufftComplex *, const cufftComplex *, const cufftComplex *, int, int);
+void ComplexMultiplyStereo(dim3, dim3, cufftComplex *, const cufftComplex *, const cufftComplex *,
+	cufftComplex *, const cufftComplex *, const cufftComplex *, int, int, int);
+
 void OverlapAdd(dim3, dim3, cufftReal *, int, const cufftReal *, int, int, int, int);
 void BackupCache(dim3, dim3, cufftReal *, cufftReal *, int, int);
 void Normalize(dim3, dim3, cufftReal *, cufftReal, int);
