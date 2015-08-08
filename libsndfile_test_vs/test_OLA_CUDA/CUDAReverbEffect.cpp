@@ -151,7 +151,7 @@ bool CUDAReverbEffect::OLA_mono() {
 		}
 	
 		//complex multiply whole IR with this IN block
-		ComplexMultiplyMono(gridDim, BLOCK_SIZE, OUT_SRC_L, IR_L, IN_L, IR_blocks * N, N);
+		ComplexMultiplyMono(gridDim, BLOCK_SIZE, OUT_SRC_L, IR_L, IN_L, IR_blocks * (N / 2 + 1), (N / 2 + 1));
 		//perform batched IFFT from OUT_SRC_L to cache_padded_l
 		IFT();
 		//move cache_padded_l to cache_l, return first L samples to host, and shift cache_l L samples to the left
@@ -432,7 +432,7 @@ int CUDAReverbEffect::init_fftws() {
 #pragma endregion
 
 #pragma region init cuComplex device buffers
-	cudaStatus = cudaMalloc((void**)&OUT_SRC_L, sizeof(cufftComplex)* IR_blocks * N);
+	cudaStatus = cudaMalloc((void**)&OUT_SRC_L, sizeof(cufftComplex)* IR_blocks * (N / 2 - 1));
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(OUT_SRC_L) failed!" << endl;
 		delete in_dev_l;
@@ -444,7 +444,7 @@ int CUDAReverbEffect::init_fftws() {
 		return -1;
 	}
 
-	cudaStatus = cudaMalloc((void**)&OUT_SRC_R, sizeof(cufftComplex)* IR_blocks * N);
+	cudaStatus = cudaMalloc((void**)&OUT_SRC_R, sizeof(cufftComplex)* IR_blocks * (N / 2 - 1));
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(OUT_SRC_R) failed!" << endl;
 		delete in_dev_l;
@@ -457,7 +457,7 @@ int CUDAReverbEffect::init_fftws() {
 		return -1;
 	}
 
-	cudaStatus = cudaMalloc((void**)&IN_L, sizeof(cufftComplex)* N);
+	cudaStatus = cudaMalloc((void**)&IN_L, sizeof(cufftComplex)* (N / 2 - 1));
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(IN_L) failed!" << endl;
 		delete in_dev_l;
@@ -471,7 +471,7 @@ int CUDAReverbEffect::init_fftws() {
 		return -1;
 	}
 
-	cudaStatus = cudaMalloc((void**)&IN_R, sizeof(cufftComplex)* N);
+	cudaStatus = cudaMalloc((void**)&IN_R, sizeof(cufftComplex)* (N / 2 - 1));
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(IN_R) failed!" << endl;
 		delete in_dev_l;
@@ -486,7 +486,7 @@ int CUDAReverbEffect::init_fftws() {
 		return -1;
 	}
 	
-	cudaStatus = cudaMalloc((void**)&IR_L, sizeof(cufftComplex)* IR_blocks * N);
+	cudaStatus = cudaMalloc((void**)&IR_L, sizeof(cufftComplex)* IR_blocks * (N / 2 - 1));
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(IR_L) failed!" << endl;
 		delete in_dev_l;
@@ -502,7 +502,7 @@ int CUDAReverbEffect::init_fftws() {
 		return -1;
 	}
 
-	cudaStatus = cudaMalloc((void**)&IR_R, sizeof(cufftComplex)* IR_blocks * N);
+	cudaStatus = cudaMalloc((void**)&IR_R, sizeof(cufftComplex)* IR_blocks * (N / 2 - 1));
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(IR_R) failed!" << endl;
 		delete in_dev_l;
