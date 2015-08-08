@@ -15,10 +15,10 @@
     <ClInclude Include="MonoStereoConversion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CUDAReverbEffect.h">
+    <ClInclude Include="device_functions.cuh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="device_functions.cuh">
+    <ClInclude Include="CUDAReverbEffect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

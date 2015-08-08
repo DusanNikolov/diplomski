@@ -15,22 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="libfftw3f-3.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="libsndfile-1.dll">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="libfftw3f-3.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="libsndfile-1.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="main_stereo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

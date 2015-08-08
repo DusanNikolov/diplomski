@@ -2,6 +2,7 @@
 
 #include "CUDAReverbEffect.h"
 #include "MonoStereoConversion.h"
+#include "device_functions.cuh"
 
 #include <iostream>
 using namespace std;
@@ -135,57 +136,53 @@ void CUDAReverbEffect::writeOutNormalized() {
 
 }
 
-void CUDAReverbEffect::OLA_mono() {
-
-	cache = new float[N * IR_blocks];
-	memset(cache, 0, sizeof(float)* (N * IR_blocks));
+bool CUDAReverbEffect::OLA_mono() {
 
 	max = 0.0f;
 
-	float avg_dft_time = 0.0f,
-		  avg_ola_conv_time = 0.0f;
-
 	for (long i = 0; i < in->frames(); i += L) {
 	
-		QueryPerformanceCounter(&start);
 		//FFT input block
 		if (i + L > in->frames()) {
-			DFT(in_l + i, (in->frames() - i), in_src_l, IN_L);
+			DFT(in_l + i, (in->frames() - i), in_dev_l, IN_L, N);
 		}
 		else {
-			DFT(in_l + i, L, in_src_l, IN_L);
+			DFT(in_l + i, L, in_dev_l, IN_L, N);
 		}
-		QueryPerformanceCounter(&end);
-		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-		avg_dft_time += elapsedTime;
+	
+		//complex multiply whole IR with this IN block
+		ComplexMultiplyMono(gridDim, BLOCK_SIZE, OUT_SRC_L, IR_L, IN_L, IR_blocks * N, N);
+		//perform batched IFFT from OUT_SRC_L to cache_padded_l
+		IFT();
+		//move cache_padded_l to cache_l, return first L samples to host, and shift cache_l L samples to the left
+		//do even blocks first
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 0);
+		//do odd blocks next shifted by M to the right
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1);
+	
+		//extract first L elements from the cache_l begining, shift cache_l << L
 
-		//multiply & OLA with each piece of IR
-		for (long j = 0; j < IR_blocks; j++) {
-
-			complexMul(OUT_SRC_L, NULL, IN_L, NULL, 0, IR_L, NULL, j);
-			IFT();
-
-			//ovaj for loop pojede dosta vremena!!
-			//valjalo bi da se izmeni ili iskoristi nekako memcpy...
-			QueryPerformanceCounter(&start);
-			for (long k = 0; k < N; k++) {
-				if (i + j * M + k < out_sz) {
-					out_l[i + j * M + k] += (in_src_l[k] / N);
-					if (fabs(out_l[i + j * M + k]) > max)
-						max = fabs(out_l[i + j * M + k]);
-				}
-			}
-			QueryPerformanceCounter(&end);
+		if (i + L > in_sz) {
+			cudaMemcpy(out_l + i, cache_l, sizeof(float)* (out_sz - i), cudaMemcpyDeviceToHost);
+		}
+		else {
+			cudaMemcpy(out_l + i, cache_l, sizeof(float)* L, cudaMemcpyDeviceToHost);
 			
+			BackupCache(gridDim, BLOCK_SIZE, temp_cache, cache_l + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N);
+			BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N);
 		}
-		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-		avg_ola_conv_time += elapsedTime;
 
 	}
 
-	cout << "Avg FFT(input) time: " << avg_dft_time / (ceil((double)in->frames() / L)) << "[ms]" << endl
-		<< "Avg OLA Convolution for loop time per input block: " << avg_ola_conv_time / (ceil((double)in->frames() / (L * IR_blocks))) << "[ms]" << endl;
+	//this should also be parallelized (reduction on GPU?)
+	max = 0.0f;
+	for (int i = 0; i < out_sz; i++) {
+		if (fabs(out_l[i]) > max)
+			max = fabs(out_l[i]);
+	}
 
+	return true;
+	
 }
 
 void CUDAReverbEffect::OLA_stereo() {
@@ -204,12 +201,12 @@ void CUDAReverbEffect::OLA_stereo() {
 		QueryPerformanceCounter(&start);
 		//FFT input block
 		if (i + L > in->frames()) {
-			DFT(in_l + i, (in->frames() - i), in_src_l, IN_L);
-			DFT(in_r + i, (in->frames() - i), in_src_r, IN_R);
+			DFT(in_l + i, (in->frames() - i), in_src_l, IN_L, N);
+			DFT(in_r + i, (in->frames() - i), in_src_r, IN_R, N);
 		}
 		else {
-			DFT(in_l + i, L, in_src_l, IN_L);
-			DFT(in_r + i, L, in_src_r, IN_R);
+			DFT(in_l + i, L, in_src_l, IN_L, N);
+			DFT(in_r + i, L, in_src_r, IN_R, N);
 		}
 		QueryPerformanceCounter(&end);
 		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
@@ -247,23 +244,47 @@ void CUDAReverbEffect::OLA_stereo() {
 
 }
 
-void CUDAReverbEffect::DFT(float *in_buf, long in_len, float *in_fft, cufftComplex *OUT_FFT) {
+bool CUDAReverbEffect::DFT(float *in_host, long in_len, float *in_dev, cufftComplex *OUT_DEV, int fft_size) {
 
-	memset(in_fft, 0, sizeof(float)* N);
-	memcpy(in_fft, in_buf, sizeof(float)*in_len);
-	memset(OUT_FFT, 0, sizeof(fftwf_complex)* N);
-	fftwf_execute_dft_r2c(DFFT, in_fft, OUT_FFT);
+	//first: copy & pad data to the in_host buffer
+	//second: transfer in_host to in_dev buffer via cudaMemcpy
+	//third: perform fft to the desired dev_out buffer
+	//REDUNDANT: first step. maybe better to memset in_dev to 0, and just cudaMemcpy to in_dev
 
+	cudaError_t cudaStatus;
+	cufftResult_t cufftStatus;
+
+	cudaStatus = cudaMemset(in_dev, 0, sizeof(cufftReal)* fft_size);
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaMemset(in_dev) failed!" << endl;
+		return false;
+	}
+	cudaStatus = cudaMemcpy(in_dev, in_host, sizeof(cufftReal)* in_len, cudaMemcpyHostToDevice);
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaMemcpy(in_dev, in_host...) failed!" << endl;
+		return false;
+	}
+
+	cufftStatus = cufftExecR2C(inDFFT, in_dev, OUT_DEV);
+	if (cufftStatus != CUFFT_SUCCESS) {
+		cerr << "cufftExecR2C failed!" << endl;
+		return false;
+	}
 }
 
-void CUDAReverbEffect::IFT() {
+bool CUDAReverbEffect::IFT() {
 
-	memset(in_src_l, 0, sizeof(float)* N);
-	fftwf_execute_dft_c2r(IFFT, OUT_SRC_L, in_src_l);
+	cufftResult_t cufftStatus;
+
+	cufftStatus = cufftExecC2R(IFFT, OUT_SRC_L, cache_padded_l);
+	if (cufftStatus != CUFFT_SUCCESS) {
+		cerr << "cufftExecC2R failed!" << endl;
+		return false;
+	}
 
 	if (STEREO == channels) {
-		memset(in_src_r, 0, sizeof(float)* N);
-		fftwf_execute_dft_c2r(IFFT, OUT_SRC_R, in_src_r);
+		//memset(in_src_r, 0, sizeof(float)* N);
+		//fftwf_execute_dft_c2r(IFFT, OUT_SRC_R, in_src_r);
 	}
 
 }
@@ -345,6 +366,9 @@ int CUDAReverbEffect::init_fftws() {
 	in_src_l = new float[N];
 	in_src_r = new float[N];
 
+	gridDim = IR_blocks * N / BLOCK_SIZE;
+
+#pragma region init cuReal device buffers
 	cudaStatus = cudaMalloc((void**)&in_dev_l, sizeof(cufftReal)* N);
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(in_dev_l) failed!" << endl;
@@ -364,24 +388,70 @@ int CUDAReverbEffect::init_fftws() {
 		return -1;
 	}
 
-	cudaStatus = cudaMalloc((void**)&OUT_SRC_L, sizeof(cufftComplex)* N);
+	cudaStatus = cudaMalloc((void**)&cache_l, sizeof(cufftReal)* ((IR_blocks - 1) * M + N));
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaMalloc(cache_l) failed!" << endl;
+		delete in_dev_l;
+		delete in_dev_r;
+		cudaFree(in_dev_l);
+		cudaFree(in_dev_r);
+		cudaFree(cache_l);
+		return -1;
+	}
+	cudaStatus = cudaMemset(cache_l, 0, sizeof(cufftReal)* ((IR_blocks - 1) * M + N));
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaMemset(cache_l) failed!" << endl;
+		delete in_dev_l;
+		delete in_dev_r;
+		cudaFree(in_dev_l);
+		cudaFree(in_dev_r);
+		cudaFree(cache_l);
+		return -1;
+	}
+
+	cudaStatus = cudaMalloc((void**)&temp_cache, sizeof(cufftReal)* ((IR_blocks - 1) * M + N));
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaMalloc(temp_cache) failed!" << endl;
+		delete in_dev_l;
+		delete in_dev_r;
+		cudaFree(in_dev_l);
+		cudaFree(in_dev_r);
+		cudaFree(cache_l);
+		return -1;
+	}
+	cudaStatus = cudaMemset(temp_cache, 0, sizeof(cufftReal)* ((IR_blocks - 1) * M + N));
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaMemset(temp_cache) failed!" << endl;
+		delete in_dev_l;
+		delete in_dev_r;
+		cudaFree(in_dev_l);
+		cudaFree(in_dev_r);
+		cudaFree(cache_l);
+		return -1;
+	}
+#pragma endregion
+
+#pragma region init cuComplex device buffers
+	cudaStatus = cudaMalloc((void**)&OUT_SRC_L, sizeof(cufftComplex)* IR_blocks * N);
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(OUT_SRC_L) failed!" << endl;
 		delete in_dev_l;
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		return -1;
 	}
 
-	cudaStatus = cudaMalloc((void**)&OUT_SRC_R, sizeof(cufftComplex)* N);
+	cudaStatus = cudaMalloc((void**)&OUT_SRC_R, sizeof(cufftComplex)* IR_blocks * N);
 	if (cudaStatus != cudaSuccess) {
 		cerr << "cudaMalloc(OUT_SRC_R) failed!" << endl;
 		delete in_dev_l;
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		cudaFree(OUT_SRC_R);
 		return -1;
@@ -394,6 +464,7 @@ int CUDAReverbEffect::init_fftws() {
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		cudaFree(OUT_SRC_R);
 		cudaFree(IN_L);
@@ -407,6 +478,7 @@ int CUDAReverbEffect::init_fftws() {
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		cudaFree(OUT_SRC_R);
 		cudaFree(IN_L);
@@ -421,6 +493,7 @@ int CUDAReverbEffect::init_fftws() {
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		cudaFree(OUT_SRC_R);
 		cudaFree(IN_L);
@@ -436,6 +509,7 @@ int CUDAReverbEffect::init_fftws() {
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		cudaFree(OUT_SRC_R);
 		cudaFree(IN_L);
@@ -445,6 +519,26 @@ int CUDAReverbEffect::init_fftws() {
 		return -1;
 	}
 
+	cudaStatus = cudaMalloc((void**)&cache_padded_l, sizeof(cufftReal)* IR_blocks * N);
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaMalloc(IR_R) failed!" << endl;
+		delete in_dev_l;
+		delete in_dev_r;
+		cudaFree(in_dev_l);
+		cudaFree(in_dev_r);
+		cudaFree(cache_l);
+		cudaFree(OUT_SRC_L);
+		cudaFree(OUT_SRC_R);
+		cudaFree(IN_L);
+		cudaFree(IN_R);
+		cudaFree(IR_L);
+		cudaFree(IR_R);
+		cudaFree(cache_padded_l);
+		return -1;
+	}
+#pragma endregion
+
+#pragma region init plans for dft/ift
 	cufftResult_t cufftStatus;
 
 	cufftStatus = cufftPlan1d(&inDFFT, N, CUFFT_R2C, 1);
@@ -454,33 +548,38 @@ int CUDAReverbEffect::init_fftws() {
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		cudaFree(OUT_SRC_R);
 		cudaFree(IN_L);
 		cudaFree(IN_R);
 		cudaFree(IR_L);
 		cudaFree(IR_R);
+		cudaFree(cache_padded_l);
 		cufftDestroy(inDFFT);
 		return -1;
 	}
-	cufftStatus = cufftPlan1d(&IFFT, N, CUFFT_C2R, 1);
+	cufftStatus = cufftPlan1d(&IFFT, N, CUFFT_C2R, IR_blocks);
 	if (cufftStatus != CUFFT_SUCCESS) {
 		cerr << "cufftPlan1d(IFFT) failed!" << endl;
 		delete in_dev_l;
 		delete in_dev_r;
 		cudaFree(in_dev_l);
 		cudaFree(in_dev_r);
+		cudaFree(cache_l);
 		cudaFree(OUT_SRC_L);
 		cudaFree(OUT_SRC_R);
 		cudaFree(IN_L);
 		cudaFree(IN_R);
 		cudaFree(IR_L);
 		cudaFree(IR_R);
+		cudaFree(cache_padded_l);
 		cufftDestroy(inDFFT);
 		cufftDestroy(IFFT);
 	}
+#pragma endregion
 
-
+	return 0;
 }
 
 void CUDAReverbEffect::init_in_out_mono() {
@@ -526,13 +625,15 @@ void CUDAReverbEffect::init_ir_mono() {
 	ir->readf(ir_l, ir->frames());
 
 
+	//it would be better to do this whole thing in one batch
+	//also one memcpyHostToDevice for whole ir would be better
 
 	for (long i = 0; i < ir_sz; i += M) {
 		if (i + M > ir->frames()) {
-			DFT(ir_l + i, ir->frames() - i, in_src_l, IR_L + (i / M) * N);
+			DFT(ir_l + i, ir->frames() - i, in_dev_l, IR_L + (i / M) * N, N);
 		}
 		else {
-			DFT(ir_l + i, M, in_src_l, IR_L + (i / M) * N);
+			DFT(ir_l + i, M, in_dev_l, IR_L + (i / M) * N, N);
 		}
 	}
 
@@ -552,12 +653,12 @@ void CUDAReverbEffect::init_ir_stereo() {
 
 	for (long i = 0; i < ir_sz / 2; i += M) {
 		if (i + M > ir->frames()) {
-			DFT(ir_l + i, ir->frames() - i, in_src_l, IR_L + (i / M) * N);
-			DFT(ir_r + i, ir->frames() - i, in_src_r, IR_R + (i / M) * N);
+			DFT(ir_l + i, ir->frames() - i, in_src_l, IR_L + (i / M) * N, N);
+			DFT(ir_r + i, ir->frames() - i, in_src_r, IR_R + (i / M) * N, N);
 		}
 		else {
-			DFT(ir_l + i, M, in_src_l, IR_L + (i / M) * N);
-			DFT(ir_r + i, M, in_src_r, IR_R + (i / M) * N);
+			DFT(ir_l + i, M, in_src_l, IR_L + (i / M) * N, N);
+			DFT(ir_r + i, M, in_src_r, IR_R + (i / M) * N, N);
 		}
 	}
 

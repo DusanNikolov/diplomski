@@ -46,6 +46,9 @@
 #define L 4096
 
 
+#define BLOCK_SIZE 256
+
+
 class CUDAReverbEffect {
 
 public:
@@ -68,11 +71,11 @@ private:
 
 	int init_fftws();
 
-	void OLA_mono();
+	bool OLA_mono();
 	void OLA_stereo();
 
-	void DFT(float *in_buf, long in_len, float *in_fft, cufftComplex *OUT_FFT);
-	void IFT();
+	bool DFT(float *in_host, long in_len, cufftReal *in_dev, cufftComplex *OUT_DEV, int fft_size);
+	bool IFT();
 	//remember! dst MUST be different from both src1 & src2
 	void complexMul(cufftComplex *DST_L, cufftComplex *DST_R, cufftComplex *SRC1_L, cufftComplex *SRC1_R, long src1_off,
 		cufftComplex *SRC2_L, cufftComplex *SRC_R, long src2_off);
@@ -91,8 +94,10 @@ private:
 	long IR_blocks;
 	float *in_src_l, *in_src_r;
 	cufftReal *in_dev_l, *in_dev_r;
+	cufftReal *cache, *cache_l, *cache_r, *temp_cache;
+	cufftReal *cache_padded_l;
 	cufftComplex *OUT_SRC_L, *OUT_SRC_R, *IN_L, *IN_R, *IR_L, *IR_R;
-	
+
 	cufftHandle inDFFT, irDFFT, IFFT;
 
 	//buffers
@@ -104,9 +109,6 @@ private:
 	long out_sz;
 	float *out_stereo, *out_l, *out_r;
 
-	//currently not used, find a use or delete it!
-	float *cache, *cache_l, *cache_r;
-
 	//used for normalization after reverb across all used channels (MONO/STEREO)
 	float max, max_l, max_r;
 
@@ -115,6 +117,9 @@ private:
 	LARGE_INTEGER frequency;        // ticks per second
 	LARGE_INTEGER start, end;           // ticks
 	double elapsedTime;
+
+	//CUDA
+	dim3 gridDim;
 
 };
 

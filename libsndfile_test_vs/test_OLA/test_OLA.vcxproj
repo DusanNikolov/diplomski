@@ -48,7 +48,8 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\OneDrive\Fakultet\diplomski\development\testiranje_cli\libsndfile_test_vs\test_OLA;C:\AdditionalLibraries\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\AdditionalLibraries\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libsndfile-1.lib;libfftw3f-3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,14 +71,6 @@
     <ClCompile Include="main_stereo.cpp" />
     <ClCompile Include="MonoStereoConversion.cpp" />
     <ClCompile Include="ReverbEffect.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="libfftw3f-3.dll" />
-    <None Include="libsndfile-1.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="libfftw3f-3.lib" />
-    <Library Include="libsndfile-1.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MonoStereoConversion.h" />
