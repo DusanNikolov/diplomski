@@ -24,8 +24,8 @@ void ComplexMultiplyMono(dim3, dim3, cufftComplex *, const cufftComplex *, const
 void ComplexMultiplyStereo(dim3, dim3, cufftComplex *, const cufftComplex *, const cufftComplex *,
 	cufftComplex *, const cufftComplex *, const cufftComplex *, int, int, int);
 
-void OverlapAdd(dim3, dim3, cufftReal *, int, const cufftReal *, int, int, int, int);
-void BackupCache(dim3, dim3, cufftReal *, cufftReal *, int, int);
+void OverlapAdd(dim3, dim3, cufftReal *, int, const cufftReal *, int, int, int, int, cudaStream_t);
+void BackupCache(dim3, dim3, cufftReal *, cufftReal *, int, int, cudaStream_t);
 void Normalize(dim3, dim3, cufftReal *, cufftReal, int);
 
 #endif

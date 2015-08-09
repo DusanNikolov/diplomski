@@ -50,6 +50,8 @@ CUDAReverbEffect::~CUDAReverbEffect() {
 
 	delete in; delete ir; delete out;
 
+	cudaDeviceReset();
+
 }
 
 void CUDAReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
@@ -158,9 +160,9 @@ bool CUDAReverbEffect::OLA_mono() {
 		IFT();
 		//move cache_padded_l to cache_l, return first L samples to host, and shift cache_l L samples to the left
 		//do even blocks first
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 0);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 0, NULL);
 		//do odd blocks next shifted by M to the right
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1, NULL);
 	
 		//extract first L elements from the cache_l begining, shift cache_l << L
 
@@ -170,8 +172,8 @@ bool CUDAReverbEffect::OLA_mono() {
 		else {
 			cudaMemcpy(out_l + i, cache_l, sizeof(float)* L, cudaMemcpyDeviceToHost);
 			
-			BackupCache(gridDim, BLOCK_SIZE, temp_cache_l, cache_l + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N);
-			BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache_l, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N);
+			BackupCache(gridDim, BLOCK_SIZE, temp_cache_l, cache_l + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N, NULL);
+			BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache_l, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N, NULL);
 		}
 
 	}
@@ -188,6 +190,11 @@ bool CUDAReverbEffect::OLA_mono() {
 }
 
 bool CUDAReverbEffect::OLA_stereo() {
+
+	cudaStreamCreate(&stream_l);
+	cudaStreamCreate(&stream_r);
+
+	cufftReal* temp;
 
 	max_l = max_r = 0.0f;
 
@@ -218,32 +225,43 @@ bool CUDAReverbEffect::OLA_stereo() {
 		//move cache_padded_l to cache_l, return first L samples to host, and shift cache_l L samples to the left
 		//do even blocks first
 		//left channel
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 0);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 0, stream_l);
 		//right channel
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 0);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 0, stream_r);
 		//do odd blocks next shifted by M to the right
 		//left channel
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1, stream_l);
 		//right channel
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 1);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 1, stream_r);
 
 		//extract first L elements from the cache_l begining, shift cache_l << L
 
 		if (i + L > in_sz / 2) {
-			cudaMemcpy(out_l + i, cache_l, sizeof(float)* (out_sz / 2 - i), cudaMemcpyDeviceToHost);
-			cudaMemcpy(out_r + i, cache_r, sizeof(float)* (out_sz / 2 - i), cudaMemcpyDeviceToHost);
+			//cudaMemcpy(out_l + i, cache_l, sizeof(float)* (out_sz / 2 - i), cudaMemcpyDeviceToHost);
+			//cudaMemcpy(out_r + i, cache_r, sizeof(float)* (out_sz / 2 - i), cudaMemcpyDeviceToHost);
+			cudaMemcpyAsync(out_l + i, cache_l, sizeof(float)* (out_sz / 2 - i), cudaMemcpyDeviceToHost, stream_l);
+			cudaMemcpyAsync(out_r + i, cache_r, sizeof(float)* (out_sz / 2 - i), cudaMemcpyDeviceToHost, stream_r);
 		}
 		else {
-			cudaMemcpy(out_l + i, cache_l, sizeof(float)* L, cudaMemcpyDeviceToHost);
-			cudaMemcpy(out_r + i, cache_r, sizeof(float)* L, cudaMemcpyDeviceToHost);
+			//cudaMemcpy(out_l + i, cache_l, sizeof(float)* L, cudaMemcpyDeviceToHost);
+			//cudaMemcpy(out_r + i, cache_r, sizeof(float)* L, cudaMemcpyDeviceToHost);
+			cudaMemcpyAsync(out_l + i, cache_l, sizeof(float)* L, cudaMemcpyDeviceToHost, stream_l);
+			cudaMemcpyAsync(out_r + i, cache_r, sizeof(float)* L, cudaMemcpyDeviceToHost, stream_r);
 
 			//shift left channel
-			BackupCache(gridDim, BLOCK_SIZE, temp_cache_l, cache_l + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N);
-			BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache_l, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N);
-		
+			BackupCache(gridDim, BLOCK_SIZE, temp_cache_l, cache_l + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N, stream_l);
+			//BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache_l, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N, stream_l);
+			
 			//shift right channel
-			BackupCache(gridDim, BLOCK_SIZE, temp_cache_r, cache_r + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N);
-			BackupCache(gridDim, BLOCK_SIZE, cache_r, temp_cache_r, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N);
+			BackupCache(gridDim, BLOCK_SIZE, temp_cache_r, cache_r + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N, stream_r);
+			//BackupCache(gridDim, BLOCK_SIZE, cache_r, temp_cache_r, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N, stream_r);
+
+			//changed from return (calling BackupCache twice) to just rotating pointers to buffers
+			//this way cache and temp_cache buffers are used in turns
+			temp = temp_cache_l; temp_cache_l = cache_l; cache_l = temp;
+			
+			temp = temp_cache_r; temp_cache_r = cache_r; cache_r = temp;
+
 		}
 
 	}
@@ -254,6 +272,21 @@ bool CUDAReverbEffect::OLA_stereo() {
 			max_l = fabs(out_l[i]);
 		if (fabs(out_r[i]) > max_r)
 			max_r = fabs(out_r[i]);
+	}
+
+	cudaError_t cudaStatus;
+
+	cudaFree(temp);
+
+	cudaStatus = cudaStreamDestroy(stream_l);
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaStreamDestroy(stream_l) failed!" << endl;
+		return false;
+	}
+	cudaStatus = cudaStreamDestroy(stream_r);
+	if (cudaStatus != cudaSuccess) {
+		cerr << "cudaStreamDestroy(stream_r) failed!" << endl;
+		return false;
 	}
 
 	return true;

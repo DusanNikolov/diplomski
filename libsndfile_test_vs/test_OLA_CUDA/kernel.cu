@@ -71,39 +71,54 @@ static __global__ void ComplexMultiplyStereo(cufftComplex *out_l, const cufftCom
 	const int numThreads = blockDim.x * gridDim.x;
 	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
 
+	cuComplex local_in_l, local_in_r;
+	cuComplex local_ir_l, local_ir_r;
+	cuComplex local_out_l, local_out_r;
+
 	for (int i = threadID; i < ir_sz; i += numThreads) {
+		
+		local_in_l = in_l[i % in_sz];
+		local_in_r = in_r[i % in_sz];
+		local_ir_l = ir_l[i];
+		local_ir_r = ir_r[i];
+
+		//too much overhead due to GMEM accessing,
+		//allocate local storage for in_l/in_r and out_l/out_r and after calculation perform writeout
 
 		//L-L
-		out_l[i].x = ir_l[i].x * in_l[i % in_sz].x - ir_l[i].y * in_l[i % in_sz].y;
-		out_l[i].y = ir_l[i].x * in_l[i % in_sz].y + ir_l[i].y * in_l[i % in_sz].x;
+		local_out_l.x = local_ir_l.x * local_in_l.x - local_ir_l.y * local_in_l.y;
+		local_out_l.y = local_ir_l.x * local_in_l.y + local_ir_l.y * local_in_l.x;
 	
 		if (trueStereo == 1) {
 			//L-R
-			out_l[i].x = ir_r[i].x * in_l[i % in_sz].x - ir_r[i].y * in_l[i % in_sz].y;
-			out_l[i].y = ir_r[i].x * in_l[i % in_sz].y + ir_r[i].y * in_l[i % in_sz].x;
+			local_out_l.x = local_ir_r.x * local_in_l.x - local_ir_r.y * local_in_l.y;
+			local_out_l.y = local_ir_r.x * local_in_l.y + local_ir_r.y * local_in_l.x;
 
-			out_l[i].x /= 2;
-			out_l[i].y /= 2;
+			local_out_l.x /= 2;
+			local_out_l.y /= 2;
 
 			//R-L
-			out_r[i].x = ir_l[i].x * in_r[i % in_sz].x - ir_l[i].y * in_r[i % in_sz].y;
-			out_r[i].y = ir_l[i].x * in_r[i % in_sz].y + ir_l[i].y * in_r[i % in_sz].x;
+			local_out_r.x = local_ir_l.x * local_in_r.x - local_ir_l.y * local_in_r.y;
+			local_out_r.y = local_ir_l.x * local_in_r.y + local_ir_l.y * local_in_r.x;
 
 			//R-R
-			out_r[i].x = ir_r[i].x * in_r[i % in_sz].x - ir_r[i].y * in_r[i % in_sz].y;
-			out_r[i].y = ir_r[i].x * in_r[i % in_sz].y + ir_r[i].y * in_r[i % in_sz].x;
+			local_out_r.x = local_ir_r.x * local_in_r.x - local_ir_r.y * local_in_r.y;
+			local_out_r.y = local_ir_r.x * local_in_r.y + local_ir_r.y * local_in_r.x;
 
-			out_r[i].x /= 2;
-			out_r[i].y /= 2;
+			local_out_r.x /= 2;
+			local_out_r.y /= 2;
 
 		}
 		else {
 			//Quasi stereo
 			//R-L
-			out_r[i].x = ir_l[i].x * in_r[i % in_sz].x - ir_l[i].y * in_r[i % in_sz].y;
-			out_r[i].y = ir_l[i].x * in_r[i % in_sz].y + ir_l[i].y * in_r[i % in_sz].x;
+			local_out_r.x = local_ir_l.x * local_in_r.x - local_ir_l.y * local_in_r.y;
+			local_out_r.y = local_ir_l.x * local_in_r.y + local_ir_l.y * local_in_r.x;
 
 		}
+
+		out_l[i] = local_out_l;
+		out_r[i] = local_out_r;
 	}
 
 }
@@ -174,15 +189,25 @@ void ComplexMultiplyStereo(dim3 gridDim, dim3 blockDim, cufftComplex *out_l, con
 
 }
 
-void OverlapAdd(dim3 gridDim, dim3 blockDim, cufftReal *dst, int dst_sz, const cufftReal *src, int src_sz, int M, int N, int odd) {
+void OverlapAdd(dim3 gridDim, dim3 blockDim, cufftReal *dst, int dst_sz, const cufftReal *src, int src_sz, int M, int N, int odd, cudaStream_t stream) {
 
-	OverlapAdd<<<gridDim, blockDim>>>(dst, dst_sz, src, src_sz, M, N, odd);
+	if (stream != NULL) {
+		OverlapAdd<<<gridDim, blockDim, 0, stream>>>(dst, dst_sz, src, src_sz, M, N, odd);
+
+	}
+	else {
+		OverlapAdd<<<gridDim, blockDim>>>(dst, dst_sz, src, src_sz, M, N, odd);
+	}
 
 }
-void BackupCache(dim3 gridDim, dim3 blockDim, cufftReal *dst, cufftReal *src, int count, int size) {
+void BackupCache(dim3 gridDim, dim3 blockDim, cufftReal *dst, cufftReal *src, int count, int size, cudaStream_t stream) {
 
-	BackupCache<<<gridDim, blockDim>>>(dst, src, count, size);
-
+	if (stream != NULL) {
+		BackupCache<<<gridDim, blockDim, 0, stream>>>(dst, src, count, size);
+	}
+	else {
+		BackupCache<<<gridDim, blockDim>>>(dst, src, count, size);
+	}
 }
 void Normalize(dim3 gridDim, dim3 blockDim, cufftReal *vector, cufftReal max, int size) {
 

@@ -87,7 +87,7 @@ private:
 	//audio file handles
 	SndfileHandle *in, *ir, *out;
 
-	//fftw_handles (r2c/c2r fft is used here)
+	//cuda_handles (r2c/c2r fft is used here)
 	long IR_blocks;
 	float *in_src_l, *in_src_r;
 	cufftReal *in_dev_l, *in_dev_r;
@@ -96,6 +96,9 @@ private:
 	cufftComplex *OUT_SRC_L, *OUT_SRC_R, *IN_L, *IN_R, *IR_L, *IR_R;
 
 	cufftHandle inDFFT, irDFFT, IFFT;
+
+	dim3 gridDim;
+	cudaStream_t stream_l, stream_r;
 
 	//buffers
 	long ir_sz;
@@ -115,8 +118,7 @@ private:
 	LARGE_INTEGER start, end;           // ticks
 	double elapsedTime;
 
-	//CUDA
-	dim3 gridDim;
+	
 
 };
 
