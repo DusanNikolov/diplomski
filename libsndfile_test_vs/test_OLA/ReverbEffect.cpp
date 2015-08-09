@@ -3,12 +3,17 @@
 #include "ReverbEffect.h"
 #include "MonoStereoConversion.h"
 
+#include <omp.h>
+
 #include <iostream>
 using namespace std;
 
 ReverbEffect::ReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
 
 	QueryPerformanceFrequency(&frequency);
+
+	//better to set this up from command line!
+	omp_set_num_threads(8);
 
 	initialize(in_fn, ir_fn, out_fn);
 
@@ -27,7 +32,7 @@ ReverbEffect::~ReverbEffect() {
 		delete out_l;
 	}
 
-	if (STEREO == ir->channels()) {
+	if (STEREO == ir_channels) {
 		delete ir_stereo; delete ir_l; delete ir_r;
 
 	}
@@ -112,11 +117,14 @@ void ReverbEffect::applyReverb() {
 
 }
 
+//parallelised
 void ReverbEffect::writeOutNormalized() {
 
 	if (STEREO == channels) {
 		float scale_l = 1 / max_l,
 			scale_r = 1 / max_r;
+#pragma omp parallel for schedule(static)\
+	firstprivate(scale_l, scale_r)
 		for (long i = 0; i < in->frames() + ir->frames() - 1; i++) {
 			out_l[i] *= scale_l;
 			out_r[i] *= scale_r;
@@ -127,6 +135,8 @@ void ReverbEffect::writeOutNormalized() {
 	}
 	else {
 		float scale = 1 / max;
+#pragma omp parallel for schedule(static)\
+	firstprivate(scale)
 		for (long i = 0; i < in->frames() + ir->frames() - 1; i++)
 			out_l[i] *= scale;
 
@@ -135,6 +145,7 @@ void ReverbEffect::writeOutNormalized() {
 
 }
 
+//somewhat parallelised
 void ReverbEffect::OLA_mono() {
 
 	cache = new float[N * IR_blocks];
@@ -144,6 +155,8 @@ void ReverbEffect::OLA_mono() {
 
 	float avg_dft_time = 0.0f,
 		  avg_ola_conv_time = 0.0f;
+
+	omp_set_num_threads(8);
 
 	for (long i = 0; i < in->frames(); i += L) {
 	
@@ -168,9 +181,12 @@ void ReverbEffect::OLA_mono() {
 			//ovaj for loop pojede dosta vremena!!
 			//valjalo bi da se izmeni ili iskoristi nekako memcpy...
 			QueryPerformanceCounter(&start);
+#pragma omp parallel for schedule(static)\
+	firstprivate(i, j)
 			for (long k = 0; k < N; k++) {
 				if (i + j * M + k < out_sz) {
 					out_l[i + j * M + k] += (in_src_l[k] / N);
+					//perhaps a critical section for this if clause?
 					if (fabs(out_l[i + j * M + k]) > max)
 						max = fabs(out_l[i + j * M + k]);
 				}
@@ -187,7 +203,7 @@ void ReverbEffect::OLA_mono() {
 		<< "Avg OLA Convolution for loop time per input block: " << avg_ola_conv_time / (ceil((double)in->frames() / (L * IR_blocks))) << "[ms]" << endl;
 
 }
-
+//somewhat parallelised
 void ReverbEffect::OLA_stereo() {
 
 	//redundant for now... perhaps use this to lower the complexity...
@@ -215,35 +231,55 @@ void ReverbEffect::OLA_stereo() {
 		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
 		avg_dft_time += elapsedTime;
 
+		QueryPerformanceCounter(&start);
 		//multiply & OLA with each piece of IR
 		for (long j = 0; j < IR_blocks; j++) {
 
 			complexMul(OUT_SRC_L, OUT_SRC_R, IN_L, IN_R, 0, IR_L, IR_R, j);
 			IFT();
-
-			//ovaj for loop pojede dosta vremena!!
-			//valjalo bi da se izmeni ili iskoristi nekako memcpy...
-			QueryPerformanceCounter(&start);
+			
+#pragma omp parallel for schedule(static)\
+	firstprivate(i, j)
 			for (long k = 0; k < N; k++) {
 				if (i + j * M + k < out_sz / 2) {
 					out_l[i + j * M + k] += (in_src_l[k] / N);
 					out_r[i + j * M + k] += (in_src_r[k] / N);
-					if (fabs(out_l[i + j * M + k]) > max_l)
-						max_l = fabs(out_l[i + j * M + k]);
-					if (fabs(out_r[i + j * M + k]) > max_r)
-						max_r = fabs(out_r[i + j * M + k]);
+					//in linux use openMP 3.1 and add reduction(max:max_l and max_r)
+					// openMP 3.1 supports max reductions!
+					if (out_l[i + j * M + k] < 0) {
+						if (0 - out_l[i + j * M + k] > max_l)
+							max_l = 0 - out_l[i + j * M + k];
+					}
+					else {
+						if (out_l[i + j * M + k] > max_l)
+							max_l = out_l[i + j * M + k];
+					}
+					if (out_r[i + j * M + k] < 0) {
+						if (0 - out_r[i + j * M + k] > max_r)
+							max_r = 0 - out_r[i + j * M + k];
+					}
+					else {
+						if (out_r[i + j * M + k] > max_r)
+							max_r = out_r[i + j * M + k];
+					}
+					//if (fabs(out_l[i + j * M + k]) > max_l)
+					//	max_l = fabs(out_l[i + j * M + k]);
+					//if (fabs(out_r[i + j * M + k]) > max_r)
+					//	max_r = fabs(out_r[i + j * M + k]);
 				}
 			}
-			QueryPerformanceCounter(&end);
+			
 
 		}
+		QueryPerformanceCounter(&end);
+
 		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
 		avg_ola_conv_time += elapsedTime;
-
+		
 	}
 
 	cout << "Avg FFT(input) time: " << avg_dft_time / (ceil((double)in->frames() / L)) << "[ms]" << endl
-		<< "Avg OLA Convolution for loop time per input block: " << avg_ola_conv_time / (ceil((double)in->frames() / (L * IR_blocks))) << "[ms]" << endl;
+		<< "Avg OLA Convolution for loop time per input block: " << avg_ola_conv_time / (IR_blocks) << "[ms]" << endl;
 
 }
 
@@ -268,60 +304,79 @@ void ReverbEffect::IFT() {
 
 }
 
+//parallelised
 void ReverbEffect::complexMul(fftwf_complex *DST_L, fftwf_complex *DST_R, fftwf_complex *SRC1_L, fftwf_complex *SRC1_R, long src1_off,
 	fftwf_complex *SRC2_L, fftwf_complex *SRC2_R, long src2_off) {
 	
-	for (long k = 0; k < N / 2 + 1; k++) {
-		
-		//L1L2
-		DST_L[k][0] = (SRC1_L[src1_off * N + k][0] * SRC2_L[src2_off * N + k][0])
-			- (SRC1_L[src1_off * N + k][1] * SRC2_L[src2_off * N + k][1]);
+	fftwf_complex dst_l, dst_r, src1_l, src1_r, src2_l, src2_r;
 
-		DST_L[k][1] = (SRC1_L[src1_off * N + k][1] * SRC2_L[src2_off * N + k][0])
-			+ (SRC1_L[src1_off * N + k][0] * SRC2_L[src2_off * N + k][1]);
+#pragma omp parallel for schedule(static)\
+	firstprivate(src1_off, src2_off)\
+	private(dst_l, dst_r, src1_l, src1_r, src2_l, src2_r)
+	for (long k = 0; k < N / 2 + 1; k++) {
+
+		src1_l[0] = SRC1_L[src1_off * N + k][0]; src1_l[1] = SRC1_L[src1_off * N + k][1];
+		if (SRC1_R != NULL) {
+			src1_r[0] = SRC1_R[src1_off * N + k][0]; src1_r[1] = SRC1_R[src1_off * N + k][1];
+		}
+		src2_l[0] = SRC2_L[src2_off * N + k][0]; src2_l[1] = SRC2_L[src2_off * N + k][1];
+		if (SRC2_R != NULL) {
+			src2_r[0] = SRC2_R[src2_off * N + k][0]; src2_r[1] = SRC2_R[src2_off * N + k][1];
+		}
+
+		//L1L2
+		dst_l[0] = (src1_l[0] * src2_l[0])
+			- (src1_l[1] * src2_l[1]);
+
+		dst_l[1] = (src1_l[1] * src2_l[0])
+			+ (src1_l[0] * src2_l[1]);
 
 		if (STEREO == channels) {
-			if (STEREO == ir->channels()) {
+			if (STEREO == ir_channels) {
 				//TrueStereo
 
 				//L1R2
-				DST_L[k][0] += (SRC1_L[src1_off * N + k][0] * SRC2_R[src2_off * N + k][0])
-					- (SRC1_L[src1_off * N + k][1] * SRC2_R[src2_off * N + k][1]);
+				dst_l[0] += (src1_l[0] * src2_r[0])
+					- (src1_l[1] * src2_r[1]);
 
-				DST_L[k][1] += (SRC1_L[src1_off * N + k][1] * SRC2_R[src2_off * N + k][0])
-					+ (SRC1_L[src1_off * N + k][0] * SRC2_R[src2_off * N + k][1]);
-				
-				DST_L[k][0] /= 2;
-				DST_L[k][1] /= 2;
+				dst_l[1] += (src1_l[1] * src2_r[0])
+					+ (src1_l[0] * src2_r[1]);
+
+				dst_l[0] /= 2;
+				dst_l[1] /= 2;
 
 				//R1L2
-				DST_L[k][0] = (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][0])
-					- (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][1]);
+				dst_l[0] = (src1_r[0] * src2_l[0])
+					- (src1_r[1] * src2_l[1]);
 
-				DST_L[k][1] = (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][0])
-					+ (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][1]);
+				dst_l[1] = (src1_r[1] * src2_l[0])
+					+ (src1_r[0] * src2_l[1]);
 
 				//R1R2
-				DST_R[k][0] = (SRC1_R[src1_off * N + k][0] * SRC2_R[src2_off * N + k][0])
-					- (SRC1_R[src1_off * N + k][1] * SRC2_R[src2_off * N + k][1]);
+				dst_r[0] = (src1_r[0] * src2_r[0])
+					- (src1_r[1] * src2_r[1]);
 
-				DST_R[k][1] = (SRC1_R[src1_off * N + k][1] * SRC2_R[src2_off * N + k][0])
-					+ (SRC1_R[src1_off * N + k][0] * SRC2_R[src2_off * N + k][1]);
-			
-				DST_R[k][0] /= 2;
-				DST_R[k][1] /= 2;
+				dst_r[1] = (src1_r[1] * src2_r[0])
+					+ (src1_r[0] * src2_r[1]);
+
+				dst_r[0] /= 2;
+				dst_r[1] /= 2;
 			}
 			else {
 				//QuasiStereo
 				//R1L2
-				DST_R[k][0] = (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][0])
-					- (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][1]);
+				dst_r[0] = (src1_r[0] * src2_l[0])
+					- (src1_r[1] * src2_l[1]);
 
-				DST_R[k][1] = (SRC1_R[src1_off * N + k][1] * SRC2_L[src2_off * N + k][0])
-					+ (SRC1_R[src1_off * N + k][0] * SRC2_L[src2_off * N + k][1]);
+				dst_r[1] = (src1_r[1] * src2_l[0])
+					+ (src1_r[0] * src2_l[1]);
 			}
 		}
-		
+
+		DST_L[k][0] = dst_l[0]; DST_L[k][1] = dst_l[1];
+		if (DST_R != NULL) {
+			DST_R[k][0] = dst_r[0]; DST_R[k][1] = dst_r[1];
+		}
 	}
 }
 
@@ -398,9 +453,11 @@ void ReverbEffect::init_in_out_stereo() {
 
 }
 
+//can't be parallelised.... something wierd with DFT
 void ReverbEffect::init_ir_mono() {
 
 	ir_sz = ir->frames();
+	ir_channels = 1;
 	ir_l = new float[ir_sz];
 	memset(ir_l, 0, sizeof(float)* ir_sz);
 	ir->readf(ir_l, ir->frames());
@@ -415,10 +472,11 @@ void ReverbEffect::init_ir_mono() {
 	}
 
 }
-
+//can't be parallelised.... something wierd with DFT
 void ReverbEffect::init_ir_stereo() {
 
 	ir_sz = ir->frames() * 2;
+	ir_channels = 2;
 	ir_stereo = new float[ir_sz];
 	ir_l = new float[ir_sz / 2];
 	ir_r = new float[ir_sz / 2];

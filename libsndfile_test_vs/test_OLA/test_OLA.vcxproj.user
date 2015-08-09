@@ -4,4 +4,8 @@
     <LocalDebuggerCommandArguments>"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\wav_files\vocal.wav" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\wav_files\LongEchoHallIR.wav" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\wav_files\vocal_hall.wav"</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommandArguments>"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\wav_files\guitar_clean.wav" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\wav_files\LongEchoHallIR.wav" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\wav_files\guitar_hall.wav"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

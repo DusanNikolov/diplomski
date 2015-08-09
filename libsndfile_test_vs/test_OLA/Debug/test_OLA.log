@@ -1,27 +1,27 @@
-﻿Build started 08-Aug-15 11:02:59.
+﻿Build started 09-Aug-15 20:22:41.
      1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main_stereo.cpp MonoStereoConversion.cpp ReverbEffect.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main_stereo.cpp MonoStereoConversion.cpp ReverbEffect.cpp
          ReverbEffect.cpp
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(124): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(153): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(160): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(182): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(207): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(208): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(216): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(241): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(368): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(373): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(381): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(386): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(387): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(391): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(403): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(410): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(421): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(433): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(434): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(132): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(166): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(173): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(198): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(223): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(224): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(232): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(277): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(423): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(428): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(436): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(441): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(442): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(446): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(459): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(467): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(478): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(491): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(492): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
          MonoStereoConversion.cpp
          main_stereo.cpp
          Generating Code...
@@ -34,4 +34,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.79
+Time Elapsed 00:00:02.21

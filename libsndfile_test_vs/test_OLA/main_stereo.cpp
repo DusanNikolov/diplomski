@@ -11,7 +11,12 @@ using namespace std;
 
 #include "ReverbEffect.h"
 
-int main(int* argc, char** argv) {
+int main(int argc, char** argv) {
+
+	if (argc < 4) {
+		cerr << "Not enough parameters, see README for instructions!" << endl;
+		return -1;
+	}
 
 	ReverbEffect* effect = new ReverbEffect(argv[1], argv[2], argv[3]);
 

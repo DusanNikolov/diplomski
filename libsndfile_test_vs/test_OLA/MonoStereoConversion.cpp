@@ -22,22 +22,18 @@ void MonoStereoConversion::extractBothChannels(float* src, float* channel1, floa
 	}
 }
 
+//parallelised
 void MonoStereoConversion::combine2Channels(float* src1, float* src2, float* dst, long src_len, float* maxValue) {
 
-	long dst_i = 0;
+//	long dst_i = 0;
 	int dst_len = src_len * 2;
 	
 	float tempMax = 0;
 
+#pragma omp parallel for schedule(static)
 	for (long src_i = 0; src_i < src_len; src_i++) {
-		dst[dst_i++] = src1[src_i];
-		if (fabs(src1[src_i]) > tempMax)
-			tempMax = fabs(src1[src_i]);
-
-		dst[dst_i++] = src2[src_i];
-		if (fabs(src2[src_i]) > tempMax)
-			tempMax = fabs(src2[src_i]);
-
+		dst[2 * src_i] = src1[src_i];
+		dst[2 * src_i + 1] = src2[src_i];
 	}
 
 	(*maxValue) = tempMax;

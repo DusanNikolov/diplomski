@@ -73,7 +73,7 @@ private:
 		fftwf_complex *SRC2_L, fftwf_complex *SRC_R, long src2_off);
 
 private:
-	int channels,
+	int channels, ir_channels,
 		format = SF_FORMAT_WAV | SF_FORMAT_PCM_16,
 		//samplerate could be an issue if the IR or IN signal have different samplerate freqs...
 		//it could be fixed if you implement a method for switching between different samplerate freqs 
