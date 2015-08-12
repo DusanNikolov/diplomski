@@ -9,8 +9,6 @@ using namespace std;
 
 CUDAReverbEffect::CUDAReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
 
-	QueryPerformanceFrequency(&frequency);
-
 	initialize(in_fn, ir_fn, out_fn);
 
 }
@@ -55,23 +53,11 @@ CUDAReverbEffect::~CUDAReverbEffect() {
 }
 
 void CUDAReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
-	LARGE_INTEGER start_init_files, end_init_files;
-	LARGE_INTEGER start_init_fftws, end_init_fftws;
-	LARGE_INTEGER start_init_inout, end_init_inout;
-	LARGE_INTEGER start_init_ir, end_init_ir;
-	double eTime_files, eTime_fftws, eTime_inout, eTime_ir;
 
-	//QueryPerformanceFrequency(&frequency);
-
-	QueryPerformanceCounter(&start_init_files);
 	init_files(in_fn, ir_fn, out_fn);
-	QueryPerformanceCounter(&end_init_files);
-	
-	QueryPerformanceCounter(&start_init_fftws);
+
 	init_fftws();
-	QueryPerformanceCounter(&end_init_fftws);
-	
-	QueryPerformanceCounter(&start_init_inout);
+
 	//initialize input/output buffers
 	if (STEREO == channels) {
 		init_in_out_stereo();
@@ -79,9 +65,7 @@ void CUDAReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
 	else {
 		init_in_out_mono();
 	}
-	QueryPerformanceCounter(&end_init_inout);
 
-	QueryPerformanceCounter(&start_init_ir);
 	//initialize ir buffers & perform FFT(ir)
 	if (STEREO == ir->channels()) {
 		init_ir_stereo();
@@ -89,18 +73,6 @@ void CUDAReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
 	else {
 		init_ir_mono();
 	}
-	QueryPerformanceCounter(&end_init_ir);
-
-	eTime_files = (end_init_files.QuadPart - start_init_files.QuadPart) * 1000.0 / frequency.QuadPart;
-	eTime_fftws = (end_init_fftws.QuadPart - start_init_fftws.QuadPart) * 1000.0 / frequency.QuadPart;
-	eTime_inout = (end_init_inout.QuadPart - start_init_inout.QuadPart) * 1000.0 / frequency.QuadPart;
-	eTime_ir = (end_init_ir.QuadPart - start_init_ir.QuadPart) * 1000.0 / frequency.QuadPart;
-
-	cout << "Files initialization time: " << eTime_files << "[ms]" << endl
-		<< "FFTWS initialization time: " << eTime_fftws << "[ms]" << endl
-		<< "In/Out initialization time: " << eTime_inout << "[ms]" << endl
-		<< "IR initialization time: " << eTime_ir << "[ms]" << endl;
-
 
 }
 
@@ -217,22 +189,27 @@ bool CUDAReverbEffect::OLA_stereo() {
 		}
 		else {
 			ComplexMultiplyStereo(gridDim, BLOCK_SIZE, OUT_SRC_L, IR_L, IN_L,
-				NULL, NULL, NULL, IR_blocks * (N / 2 + 1), (N / 2 + 1), 0);
+				OUT_SRC_R, NULL, IN_R, IR_blocks * (N / 2 + 1), (N / 2 + 1), 0);
 		}
 
 		//perform batched IFFT from OUT_SRC to cache_padded
 		IFT();
 		//move cache_padded_l to cache_l, return first L samples to host, and shift cache_l L samples to the left
 		//do even blocks first
+
 		//left channel
 		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 0, stream_l);
 		//right channel
 		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 0, stream_r);
-		//do odd blocks next shifted by M to the right
+		
+		//do odd blocks next shifted by M to the right - ne izlazi ispravan fajl, bez ovoga je sve u redu, a ne bi trebalo da bude
+		//ispada da su parni i neparni blokovi odbiraka u cache_padded identicni??
+		//mislim...??
+		
 		//left channel
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1, stream_l);
+		//OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1, stream_l);
 		//right channel
-		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 1, stream_r);
+		//OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 1, stream_r);
 
 		//extract first L elements from the cache_l begining, shift cache_l << L
 
@@ -266,7 +243,7 @@ bool CUDAReverbEffect::OLA_stereo() {
 
 	}
 
-	//this should also be parallelized (reduction on GPU?)
+	//this should also be parallelized (reduction on GPU?) or use OpenMP here too?
 	for (int i = 0; i < out_sz / 2; i++) {
 		if (fabs(out_l[i]) > max_l)
 			max_l = fabs(out_l[i]);
@@ -775,7 +752,7 @@ void CUDAReverbEffect::init_ir_mono() {
 
 	ir_sz = ir->frames();
 	ir_l = new float[ir_sz];
-	memset(ir_l, 0, sizeof(float)* ir_sz);
+	//memset(ir_l, 0, sizeof(float)* ir_sz);
 	ir->readf(ir_l, ir->frames());
 
 
@@ -784,7 +761,7 @@ void CUDAReverbEffect::init_ir_mono() {
 
 	for (long i = 0; i < ir_sz; i += M) {
 		if (i + M > ir->frames()) {
-			DFT(ir_l + i, ir->frames() - i, in_dev_l, IR_L + (i / M) * (N / 2 + 1), N);
+			DFT(ir_l + i, ir_sz - i, in_dev_l, IR_L + (i / M) * (N / 2 + 1), N);
 		}
 		else {
 			DFT(ir_l + i, M, in_dev_l, IR_L + (i / M) * (N / 2 + 1), N);
@@ -799,9 +776,9 @@ void CUDAReverbEffect::init_ir_stereo() {
 	ir_stereo = new float[ir_sz];
 	ir_l = new float[ir_sz / 2];
 	ir_r = new float[ir_sz / 2];
-	memset(ir_stereo, 0, sizeof(float)* ir_sz);
-	memset(ir_l, 0, sizeof(float)* ir_sz / 2);
-	memset(ir_r, 0, sizeof(float)* ir_sz / 2);
+	//memset(ir_stereo, 0, sizeof(float)* ir_sz);
+	//memset(ir_l, 0, sizeof(float)* ir_sz / 2);
+	//memset(ir_r, 0, sizeof(float)* ir_sz / 2);
 	ir->readf(ir_stereo, ir->frames());
 	MonoStereoConversion::extractBothChannels(ir_stereo, ir_l, ir_r, ir_sz);
 
