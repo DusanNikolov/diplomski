@@ -116,6 +116,8 @@ bool CUDAReverbEffect::OLA_mono() {
 
 	max = 0.0f;
 
+	cufftReal *temp;
+
 	for (long i = 0; i < in->frames(); i += L) {
 	
 		//FFT input block
@@ -145,7 +147,9 @@ bool CUDAReverbEffect::OLA_mono() {
 			cudaMemcpy(out_l + i, cache_l, sizeof(float)* L, cudaMemcpyDeviceToHost);
 			
 			BackupCache(gridDim, BLOCK_SIZE, temp_cache_l, cache_l + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N, NULL);
-			BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache_l, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N, NULL);
+			//BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache_l, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N, NULL);
+			temp = temp_cache_l; temp_cache_l = cache_l; cache_l = temp;
+		
 		}
 
 	}
@@ -203,13 +207,11 @@ bool CUDAReverbEffect::OLA_stereo() {
 		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 0, stream_r);
 		
 		//do odd blocks next shifted by M to the right - ne izlazi ispravan fajl, bez ovoga je sve u redu, a ne bi trebalo da bude
-		//ispada da su parni i neparni blokovi odbiraka u cache_padded identicni??
-		//mislim...??
 		
 		//left channel
-		//OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1, stream_l);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_l, (IR_blocks - 1) * M + N, cache_padded_l, IR_blocks * N, M, N, 1, stream_l);
 		//right channel
-		//OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 1, stream_r);
+		OverlapAdd(gridDim, BLOCK_SIZE, cache_r, (IR_blocks - 1) * M + N, cache_padded_r, IR_blocks * N, M, N, 1, stream_r);
 
 		//extract first L elements from the cache_l begining, shift cache_l << L
 
