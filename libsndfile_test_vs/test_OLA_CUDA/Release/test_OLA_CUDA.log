@@ -1,7 +1,7 @@
-﻿Build started 14-Aug-15 11:07:19.
+﻿Build started 14-Aug-15 17:00:47.
      1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\test_OLA_CUDA.vcxproj" on node 2 (Rebuild target(s)).
      1>CudaClean:
-         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp6b32c48446e748579ff1c69d159bdf89.cmd"
+         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp70b70722b42240a891d2860bf0cabd3b.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile      -DWIN32 -DNDEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Ox /Zi  /MD  " -o Release\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" -clean
          
          D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile      -DWIN32 -DNDEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Ox /Zi  /MD  " -o Release\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" -clean 
@@ -10,7 +10,7 @@
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /DNDEBUG /D_CONSOLE /D_MBCS /D_CRT_SECURE_NO_WARNINGS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I. /FIcuda_runtime.h /c D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu 
        CudaBuild:
          Compiling CUDA source file kernel.cu...
-         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmpf86c756af322489987db291e120c714f.cmd"
+         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp6d4b5c824c924c7b9eb2aa52f2c23654.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile -cudart static     -DWIN32 -DNDEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Ox /Zi  /MD  " -o Release\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu"
          
          D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile -cudart static     -DWIN32 -DNDEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Ox /Zi  /MD  " -o Release\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" 
@@ -19,22 +19,60 @@
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /Zi /nologo /W3 /WX- /Ox /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp MonoStereoConversion.cpp CUDAReverbEffect.cpp
          main.cpp
          MonoStereoConversion.cpp
+     1>MonoStereoConversion.cpp(28): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'int', possible loss of data
          CUDAReverbEffect.cpp
-     1>CUDAReverbEffect.cpp(101): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(125): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(181): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(182): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(340): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(720): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(725): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(733): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>CUDAReverbEffect.cpp(132): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(137): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(139): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(144): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(149): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(192): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(196): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(205): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(207): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(212): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(214): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(221): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(222): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(231): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(235): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(290): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(345): warning C4244: 'argument' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(371): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(382): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(396): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(408): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(421): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(434): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(450): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(464): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(479): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(494): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(516): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(533): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(594): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(615): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(666): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(689): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>CUDAReverbEffect.cpp(721): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(726): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(727): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(734): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(735): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(736): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(737): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
      1>CUDAReverbEffect.cpp(738): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
      1>CUDAReverbEffect.cpp(739): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>CUDAReverbEffect.cpp(743): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(755): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(777): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(789): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>CUDAReverbEffect.cpp(790): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>CUDAReverbEffect.cpp(744): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(745): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(746): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(747): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(748): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(749): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>CUDAReverbEffect.cpp(756): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(778): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(779): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>CUDAReverbEffect.cpp(780): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Release\test_OLA_CUDA.exe" /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\Win32" /LIBPATH:C:\AdditionalLibraries\lib /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\lib\Win32" "libsndfile-1.lib" cufft.lib cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Release\test_OLA_CUDA.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\Release\test_OLA_CUDA.lib" /MACHINE:X86 /SAFESEH Release\kernel.cu.obj
          Release\main.obj
@@ -55,4 +93,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:08.71
+Time Elapsed 00:00:18.86

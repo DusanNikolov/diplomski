@@ -21,7 +21,7 @@ static __global__ void ComplexMultiplyStereo(cufftComplex *, const cufftComplex 
 
 static __global__ void OverlapAdd(cufftReal *, int, const cufftReal *, int, int, int, int);
 static __global__ void BackupCache(cufftReal *, cufftReal *, int, int);
-static __global__ void Normalize(cufftReal *, cufftReal, int);
+//static __global__ void Normalize(cufftReal *, cufftReal, int);
 
 void ComplexMultiplyMono(dim3, dim3, cufftComplex *, const cufftComplex *, const cufftComplex *, int, int);
 void ComplexMultiplyStereo(dim3, dim3, cufftComplex *, const cufftComplex *, const cufftComplex *,
@@ -29,6 +29,7 @@ void ComplexMultiplyStereo(dim3, dim3, cufftComplex *, const cufftComplex *, con
 
 void OverlapAdd(dim3, dim3, cufftReal *, int, const cufftReal *, int, int, int, int, cudaStream_t);
 void BackupCache(dim3, dim3, cufftReal *, cufftReal *, int, int, cudaStream_t);
-void Normalize(dim3, dim3, cufftReal *, cufftReal, int);
+
+//void Normalize(dim3, dim3, cufftReal *, cufftReal, int);
 
 #endif

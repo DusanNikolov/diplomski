@@ -135,19 +135,15 @@ static __global__ void OverlapAdd(cufftReal *dst, int dst_sz, const cufftReal *s
 	const int threadID = blockID + threadIdx.x;
 
 	const int ind_dst = threadID + dst_offset;
-	const int ind_src = (2 * (blockID / N) + odd) * N + threadID - (threadID / N) * N;
-	
-	
-	//dst size  = (IR_blocks - 1) * M + N
-	//srr size = IR_blocks * N
-	
+	const int ind_src = (2 * (threadID / N) + odd) * N + threadID - (threadID / N) * N;
+		
 	//OLA with scaling
-	if (threadID < src_sz / 2)
+	if (ind_src < src_sz)
 		dst[ind_dst] += src[ind_src] / N;
 	
 }
 
-//Copy cache
+//Backup cache
 static __global__ void BackupCache(cufftReal *dst, cufftReal *src, int count, int size) {
 
 	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
@@ -163,16 +159,16 @@ static __global__ void BackupCache(cufftReal *dst, cufftReal *src, int count, in
 
 }
 
-static __global__ void Normalize(cufftReal *vector, cufftReal max, int size) {
-
-	const int numThreads = blockDim.x * gridDim.x;
-	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
-
-	for (int i = threadID; i < size; i += numThreads) {
-		vector[i] /= max;
-	}
-
-}
+//static __global__ void Normalize(cufftReal *vector, cufftReal max, int size) {
+//
+//	const int numThreads = blockDim.x * gridDim.x;
+//	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
+//
+//	for (int i = threadID; i < size; i += numThreads) {
+//		vector[i] /= max;
+//	}
+//
+//}
 
 
 
@@ -208,8 +204,8 @@ void BackupCache(dim3 gridDim, dim3 blockDim, cufftReal *dst, cufftReal *src, in
 		BackupCache<<<gridDim, blockDim>>>(dst, src, count, size);
 	}
 }
-void Normalize(dim3 gridDim, dim3 blockDim, cufftReal *vector, cufftReal max, int size) {
-
-	Normalize<<<gridDim, blockDim>>>(vector, max, size);
-
-}
+//void Normalize(dim3 gridDim, dim3 blockDim, cufftReal *vector, cufftReal max, int size) {
+//
+//	Normalize<<<gridDim, blockDim>>>(vector, max, size);
+//
+//}
