@@ -9,12 +9,15 @@
 
 // Complex data type
 
-static __device__ __host__ inline cufftComplex ComplexAdd(cufftComplex, cufftComplex);
-static __device__ __host__ inline cufftComplex ComplexScale(cufftComplex, float);
-static __device__ __host__ inline cufftComplex ComplexMul(cufftComplex, cufftComplex);
+//static __device__ __host__ inline cufftComplex ComplexAdd(cufftComplex, cufftComplex);
+//static __device__ __host__ inline cufftComplex ComplexScale(cufftComplex, float);
+//static __device__ __host__ inline cufftComplex ComplexMul(cufftComplex, cufftComplex);
+
+//static __global__ void ComplexPointwiseMulAndScale(cufftComplex *, const cufftComplex *, int, float);
 
 static __global__ void ComplexMultiplyMono(cufftComplex *, const cufftComplex *, const cufftComplex *, int, int);
-static __global__ void ComplexPointwiseMulAndScale(cufftComplex *, const cufftComplex *, int, float);
+static __global__ void ComplexMultiplyStereo(cufftComplex *, const cufftComplex *, const cufftComplex *,
+	cufftComplex *, const cufftComplex *, const cufftComplex *, int, int, int);
 
 static __global__ void OverlapAdd(cufftReal *, int, const cufftReal *, int, int, int, int);
 static __global__ void BackupCache(cufftReal *, cufftReal *, int, int);

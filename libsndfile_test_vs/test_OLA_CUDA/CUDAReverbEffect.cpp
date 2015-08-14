@@ -7,9 +7,9 @@
 #include <iostream>
 using namespace std;
 
-CUDAReverbEffect::CUDAReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
+CUDAReverbEffect::CUDAReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
-	initialize(in_fn, ir_fn, out_fn);
+	initialize(in, ir, out);
 
 }
 
@@ -52,9 +52,9 @@ CUDAReverbEffect::~CUDAReverbEffect() {
 
 }
 
-void CUDAReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
+void CUDAReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
-	init_files(in_fn, ir_fn, out_fn);
+	init_files(in, ir, out);
 
 	init_fftws();
 
@@ -272,7 +272,7 @@ bool CUDAReverbEffect::OLA_stereo() {
 
 }
 
-bool CUDAReverbEffect::DFT(float *in_host, long in_len, float *in_dev, cufftComplex *OUT_DEV, int fft_size) {
+bool CUDAReverbEffect::DFT(float *in_host, sf_count_t in_len, float *in_dev, cufftComplex *OUT_DEV, int fft_size) {
 
 	//first: copy & pad data to the in_host buffer
 	//second: transfer in_host to in_dev buffer via cudaMemcpy
@@ -323,13 +323,13 @@ bool CUDAReverbEffect::IFT() {
 	return true;
 }
 
-void CUDAReverbEffect::init_files(char *in_fn, char *ir_fn, char *out_fn) {
+void CUDAReverbEffect::init_files(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
-	in = new SndfileHandle(in_fn);
+	this->in = in;
+	this->ir = ir;
+	this->out = out;
+
 	channels = in->channels();
-	ir = new SndfileHandle(ir_fn);
-	out = new SndfileHandle(out_fn, SFM_WRITE, format, channels, samplerate);
-	out->command(SFC_SET_UPDATE_HEADER_AUTO, NULL, SF_TRUE);
 
 }
 

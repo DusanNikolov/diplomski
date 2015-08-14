@@ -44,17 +44,17 @@
 class ReverbEffect {
 
 public:
-	ReverbEffect(char *in_fn, char *ir_fn, char *out_fn);
+	ReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out);
 	~ReverbEffect();
 
-	void initialize(char *in_fn, char *ir_fn, char *out_fn);
+	void initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out);
 
 	void applyReverb();
 
 	void writeOutNormalized();
 
 private:
-	void init_files(char *in_fn, char *ir_fn, char *out_fn);
+	void init_files(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out);
 	
 	void init_in_out_mono();
 	void init_in_out_stereo();
@@ -66,7 +66,7 @@ private:
 	void OLA_mono();
 	void OLA_stereo();
 
-	void DFT(float *in_buf, long in_len, float *in_fft, fftwf_complex *OUT_FFT);
+	void DFT(float *in_buf, sf_count_t in_len, float *in_fft, fftwf_complex *OUT_FFT);
 	void IFT();
 	//remember! dst MUST be different from both src1 & src2
 	void complexMul(fftwf_complex *DST_L, fftwf_complex *DST_R, fftwf_complex *SRC1_L, fftwf_complex *SRC1_R, long src1_off,
@@ -89,12 +89,12 @@ private:
 	fftwf_plan DFFT, IFFT;
 
 	//buffers
-	long ir_sz;
+	sf_count_t ir_sz;
 	float *ir_stereo, *ir_l, *ir_r;
 
-	long in_sz;
+	sf_count_t in_sz;
 	float *in_stereo, *in_l, *in_r;
-	long out_sz;
+	sf_count_t out_sz;
 	float *out_stereo, *out_l, *out_r;
 
 	//currently not used, find a use or delete it!

@@ -1,29 +1,34 @@
-﻿Build started 09-Aug-15 20:23:01.
+﻿Build started 14-Aug-15 11:39:22.
      1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /Zi /nologo /W3 /WX- /sdl /Ox /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main_stereo.cpp MonoStereoConversion.cpp ReverbEffect.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /Zi /nologo /W3 /WX- /sdl /Ox /Oi /Oy- /GL /D _MBCS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main_stereo.cpp MonoStereoConversion.cpp ReverbEffect.cpp
          main_stereo.cpp
          MonoStereoConversion.cpp
          ReverbEffect.cpp
-     1>ReverbEffect.cpp(132): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(166): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(173): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>ReverbEffect.cpp(198): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>ReverbEffect.cpp(223): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(224): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(232): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>ReverbEffect.cpp(277): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>ReverbEffect.cpp(423): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(428): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(436): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(441): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>ReverbEffect.cpp(442): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>ReverbEffect.cpp(446): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(459): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(467): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(478): warning C4244: '=' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(491): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
-     1>ReverbEffect.cpp(492): warning C4244: 'argument' : conversion from 'sf_count_t' to 'long', possible loss of data
+     1>ReverbEffect.cpp(285): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(420): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(425): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(426): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(433): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(434): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(435): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(436): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(437): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(438): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(443): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(444): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(445): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(446): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(447): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(448): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(457): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(458): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(476): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(477): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(478): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(479): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(480): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(481): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Release\test_OLA.exe" /NOLOGO /LIBPATH:C:\AdditionalLibraries\lib "libsndfile-1.lib" "libfftw3f-3.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Release\test_OLA.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Release\test_OLA.lib" /MACHINE:X86 /SAFESEH Release\main_stereo.obj
          Release\MonoStereoConversion.obj
@@ -35,4 +40,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.17
+Time Elapsed 00:00:02.25

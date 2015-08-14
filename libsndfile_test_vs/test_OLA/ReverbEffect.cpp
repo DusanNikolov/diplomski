@@ -8,14 +8,14 @@
 #include <iostream>
 using namespace std;
 
-ReverbEffect::ReverbEffect(char *in_fn, char *ir_fn, char *out_fn) {
+ReverbEffect::ReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
 	QueryPerformanceFrequency(&frequency);
 
 	//better to set this up from command line!
 	omp_set_num_threads(8);
 
-	initialize(in_fn, ir_fn, out_fn);
+	initialize(in, ir, out);
 
 }
 
@@ -56,7 +56,7 @@ ReverbEffect::~ReverbEffect() {
 
 }
 
-void ReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
+void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 	LARGE_INTEGER start_init_files, end_init_files;
 	LARGE_INTEGER start_init_fftws, end_init_fftws;
 	LARGE_INTEGER start_init_inout, end_init_inout;
@@ -66,7 +66,7 @@ void ReverbEffect::initialize(char *in_fn, char *ir_fn, char *out_fn) {
 	//QueryPerformanceFrequency(&frequency);
 
 	QueryPerformanceCounter(&start_init_files);
-	init_files(in_fn, ir_fn, out_fn);
+	init_files(in, ir, out);
 	QueryPerformanceCounter(&end_init_files);
 	
 	QueryPerformanceCounter(&start_init_fftws);
@@ -153,7 +153,7 @@ void ReverbEffect::OLA_mono() {
 
 	max = 0.0f;
 
-	float avg_dft_time = 0.0f,
+	double avg_dft_time = 0.0f,
 		  avg_ola_conv_time = 0.0f;
 
 	omp_set_num_threads(8);
@@ -212,7 +212,7 @@ void ReverbEffect::OLA_stereo() {
 
 	max_l = max_r = 0.0f;
 
-	float avg_dft_time = 0.0f,
+	double avg_dft_time = 0.0f,
 		avg_ola_conv_time = 0.0f;
 
 	for (long i = 0; i < in->frames(); i += L) {
@@ -262,10 +262,6 @@ void ReverbEffect::OLA_stereo() {
 						if (out_r[i + j * M + k] > max_r)
 							max_r = out_r[i + j * M + k];
 					}
-					//if (fabs(out_l[i + j * M + k]) > max_l)
-					//	max_l = fabs(out_l[i + j * M + k]);
-					//if (fabs(out_r[i + j * M + k]) > max_r)
-					//	max_r = fabs(out_r[i + j * M + k]);
 				}
 			}
 			
@@ -283,7 +279,7 @@ void ReverbEffect::OLA_stereo() {
 
 }
 
-void ReverbEffect::DFT(float *in_buf, long in_len, float *in_fft, fftwf_complex *OUT_FFT) {
+void ReverbEffect::DFT(float *in_buf, sf_count_t in_len, float *in_fft, fftwf_complex *OUT_FFT) {
 
 	memset(in_fft, 0, sizeof(float)* N);
 	memcpy(in_fft, in_buf, sizeof(float)*in_len);
@@ -380,13 +376,13 @@ void ReverbEffect::complexMul(fftwf_complex *DST_L, fftwf_complex *DST_R, fftwf_
 	}
 }
 
-void ReverbEffect::init_files(char *in_fn, char *ir_fn, char *out_fn) {
+void ReverbEffect::init_files(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
-	in = new SndfileHandle(in_fn);
+	this->in = in;
+	this->ir = ir;
+	this->out = out;
+
 	channels = in->channels();
-	ir = new SndfileHandle(ir_fn);
-	out = new SndfileHandle(out_fn, SFM_WRITE, format, channels, samplerate);
-	out->command(SFC_SET_UPDATE_HEADER_AUTO, NULL, SF_TRUE);
 
 }
 

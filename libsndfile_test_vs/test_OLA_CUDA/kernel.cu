@@ -14,43 +14,43 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Complex addition
-static __device__ __host__ inline cufftComplex ComplexAdd(cufftComplex a, cufftComplex b)
-{
-	cufftComplex c;
-	c.x = a.x + b.x;
-	c.y = a.y + b.y;
-	return c;
-}
+//static __device__ __host__ inline cufftComplex ComplexAdd(cufftComplex a, cufftComplex b)
+//{
+//	cufftComplex c;
+//	c.x = a.x + b.x;
+//	c.y = a.y + b.y;
+//	return c;
+//}
 
 // Complex scale
-static __device__ __host__ inline cufftComplex ComplexScale(cufftComplex a, float s)
-{
-	cufftComplex c;
-	c.x = s * a.x;
-	c.y = s * a.y;
-	return c;
-}
+//static __device__ __host__ inline cufftComplex ComplexScale(cufftComplex a, float s)
+//{
+//	cufftComplex c;
+//	c.x = s * a.x;
+//	c.y = s * a.y;
+//	return c;
+//}
 
 // Complex multiplication
-static __device__ __host__ inline cufftComplex ComplexMul(cufftComplex a, cufftComplex b)
-{
-	cufftComplex c;
-	c.x = a.x * b.x - a.y * b.y;
-	c.y = a.x * b.y + a.y * b.x;
-	return c;
-}
+//static __device__ __host__ inline cufftComplex ComplexMul(cufftComplex a, cufftComplex b)
+//{
+//	cufftComplex c;
+//	c.x = a.x * b.x - a.y * b.y;
+//	c.y = a.x * b.y + a.y * b.x;
+//	return c;
+//}
 
 // Complex pointwise multiplication
-static __global__ void ComplexPointwiseMulAndScale(cufftComplex *a, const cufftComplex *b, int size, float scale)
-{
-	const int numThreads = blockDim.x * gridDim.x;
-	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
-
-	for (int i = threadID; i < size; i += numThreads)
-	{
-		a[i] = ComplexScale(ComplexMul(a[i], b[i]), scale);
-	}
-}
+//static __global__ void ComplexPointwiseMulAndScale(cufftComplex *a, const cufftComplex *b, int size, float scale)
+//{
+//	const int numThreads = blockDim.x * gridDim.x;
+//	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
+//
+//	for (int i = threadID; i < size; i += numThreads)
+//	{
+//		a[i] = ComplexScale(ComplexMul(a[i], b[i]), scale);
+//	}
+//}
 
 
 static __global__ void ComplexMultiplyMono(cufftComplex *out, const cufftComplex *ir, const cufftComplex *in, int ir_sz, int in_sz) {
@@ -80,7 +80,8 @@ static __global__ void ComplexMultiplyStereo(cufftComplex *out_l, const cufftCom
 		local_in_l = in_l[i % in_sz];
 		local_in_r = in_r[i % in_sz];
 		local_ir_l = ir_l[i];
-		local_ir_r = ir_r[i];
+		if (trueStereo == 1)
+			local_ir_r = ir_r[i];
 
 		//too much overhead due to GMEM accessing,
 		//allocate local storage for in_l/in_r and out_l/out_r and after calculation perform writeout
@@ -128,7 +129,6 @@ static __global__ void ComplexMultiplyStereo(cufftComplex *out_l, const cufftCom
 static __global__ void OverlapAdd(cufftReal *dst, int dst_sz, const cufftReal *src, int src_sz, int M, int N, int odd) {
 
 	//odd == 1 then do odd overlap & add, else do even
-	const int numThreads = blockDim.x * gridDim.x;
 	//offset, only significant when odd = 1; because odd blocks are shifted to the right by size(offset)
 	const int dst_offset = M * odd;
 	const int blockID = blockIdx.x * blockDim.x;
@@ -150,7 +150,6 @@ static __global__ void OverlapAdd(cufftReal *dst, int dst_sz, const cufftReal *s
 //Copy cache
 static __global__ void BackupCache(cufftReal *dst, cufftReal *src, int count, int size) {
 
-	const int numThreads = blockDim.x * gridDim.x;
 	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
 
 	if (threadID < size) {
