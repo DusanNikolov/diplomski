@@ -4,10 +4,15 @@
 #include "MonoStereoConversion.h"
 #include "device_functions.cuh"
 
+#include <omp.h>
+
 #include <iostream>
 using namespace std;
 
 CUDAReverbEffect::CUDAReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
+
+	//remove this and set OMP_NUM_THREADS from caller space
+	omp_set_num_threads(8);
 
 	initialize(in, ir, out);
 
@@ -94,6 +99,8 @@ void CUDAReverbEffect::writeOutNormalized() {
 	if (STEREO == channels) {
 		float scale_l = 1 / max_l,
 			scale_r = 1 / max_r;
+#pragma omp parallel for schedule(static)\
+	firstprivate(scale_l, scale_r)
 		for (long i = 0; i < in->frames() + ir->frames() - 1; i++) {
 			out_l[i] *= scale_l;
 			out_r[i] *= scale_r;
@@ -104,6 +111,8 @@ void CUDAReverbEffect::writeOutNormalized() {
 	}
 	else {
 		float scale = 1 / max;
+#pragma omp parallel for schedule(static)\
+	firstprivate(scale)
 		for (long i = 0; i < in->frames() + ir->frames() - 1; i++)
 			out_l[i] *= scale;
 
@@ -148,6 +157,7 @@ bool CUDAReverbEffect::OLA_mono() {
 			
 			BackupCache(gridDim, BLOCK_SIZE, temp_cache_l, cache_l + L, (IR_blocks - 1) * M + N - L, (IR_blocks - 1) * M + N, NULL);
 			//BackupCache(gridDim, BLOCK_SIZE, cache_l, temp_cache_l, (IR_blocks - 1) * M + N, (IR_blocks - 1) * M + N, NULL);
+			//in order to avoid excess copying, just rotate pointers
 			temp = temp_cache_l; temp_cache_l = cache_l; cache_l = temp;
 		
 		}
@@ -156,9 +166,16 @@ bool CUDAReverbEffect::OLA_mono() {
 
 	//this should also be parallelized (reduction on GPU?)
 	max = 0.0f;
+#pragma omp parallel for schedule(static)
 	for (int i = 0; i < out_sz; i++) {
-		if (fabs(out_l[i]) > max)
-			max = fabs(out_l[i]);
+		if (out_l[i] < 0) {
+			if (0 - out_l[i] > max)
+				max = 0 - out_l[i];
+		}
+		else {
+			if (out_l[i] > max)
+				max = out_l[i];
+		}
 	}
 
 	return true;
@@ -246,11 +263,24 @@ bool CUDAReverbEffect::OLA_stereo() {
 	}
 
 	//this should also be parallelized (reduction on GPU?) or use OpenMP here too?
+#pragma omp parallel for schedule(static)
 	for (int i = 0; i < out_sz / 2; i++) {
-		if (fabs(out_l[i]) > max_l)
-			max_l = fabs(out_l[i]);
-		if (fabs(out_r[i]) > max_r)
-			max_r = fabs(out_r[i]);
+		if (out_l[i] < 0) {
+			if (0 - out_l[i] > max_l)
+				max_l = 0 - out_l[i];
+		}
+		else {
+			if (out_l[i] > max_l)
+				max_l = out_l[i];
+		}
+		if (out_r[i] < 0) {
+			if (0 - out_r[i] > max_r)
+				max_r = 0 - out_r[i];
+		}
+		else {
+			if (out_r[i] > max_r)
+				max_r = out_r[i];
+		}
 	}
 
 	cudaError_t cudaStatus;

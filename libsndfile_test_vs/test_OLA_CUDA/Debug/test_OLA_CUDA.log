@@ -1,7 +1,7 @@
-﻿Build started 14-Aug-15 16:51:21.
+﻿Build started 16-Aug-15 16:06:00.
      1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\test_OLA_CUDA.vcxproj" on node 2 (Rebuild target(s)).
      1>CudaClean:
-         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp1c90f435306b4bb0b1c988a1a8dd0f21.cmd"
+         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp92f668d882ed42368eb5456f5db4399a.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile   -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" -clean
          
          D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile   -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" -clean 
@@ -10,66 +10,66 @@
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /D_DEBUG /D_CONSOLE /D_MBCS /D_CRT_SECURE_NO_WARNINGS /IC:\AdditionalLibraries\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I. /FIcuda_runtime.h /c D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu 
        CudaBuild:
          Compiling CUDA source file kernel.cu...
-         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp69273e7ff844411a900c3e08b7a4cd98.cmd"
+         cmd.exe /C "C:\Users\Dusan\AppData\Local\Temp\tmp23ba0b49f31345d980599b7ed58536fe.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu"
          
          D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" -IC:\AdditionalLibraries\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -D_CRT_SECURE_NO_WARNINGS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd  " -o Debug\kernel.cu.obj "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\kernel.cu" 
          kernel.cu
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp MonoStereoConversion.cpp CUDAReverbEffect.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.0\include" /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp MonoStereoConversion.cpp CUDAReverbEffect.cpp
          CUDAReverbEffect.cpp
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(132): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(137): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(139): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(144): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(149): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(192): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(196): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(205): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(207): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(212): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(214): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(221): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(222): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(141): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(146): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(148): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(153): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(158): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(209): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(213): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(222): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(224): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(229): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
      1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(231): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(235): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(290): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(345): warning C4244: 'argument' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(371): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(382): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(396): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(408): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(421): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(434): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(450): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(238): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(239): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(248): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(252): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(320): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(375): warning C4244: 'argument' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(401): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(412): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(426): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(438): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(451): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
      1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(464): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(479): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(480): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
      1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(494): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(516): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(533): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(594): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(615): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(666): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(689): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(721): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(726): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(727): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(734): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(735): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(736): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(737): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(738): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(739): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(744): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(745): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(746): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(747): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(748): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(749): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(509): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(524): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(546): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(563): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(624): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(645): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(696): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(719): warning C4244: 'argument' : conversion from 'sf_count_t' to 'int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(751): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
      1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(756): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(778): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(779): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(780): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(757): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(764): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(765): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(766): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(767): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(768): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(769): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(774): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(775): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(776): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(777): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(778): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(779): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(786): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(808): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(809): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\cudareverbeffect.cpp(810): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
          MonoStereoConversion.cpp
      1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola_cuda\monostereoconversion.cpp(28): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'int', possible loss of data
          main.cpp
@@ -92,4 +92,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:17.83
+Time Elapsed 00:00:14.80

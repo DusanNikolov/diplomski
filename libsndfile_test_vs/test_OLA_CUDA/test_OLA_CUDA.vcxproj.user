@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LocalDebuggerCommandArguments>"D:\Desktop\test_CUDA\wav_files\guitar_clean.wav" "D:\Desktop\test_CUDA\IRS\stereo\Bath.wav"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA_CUDA\wav_files\guitar_clean.wav" "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\IRS\stereo\LongEchoHallIR.wav"</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
