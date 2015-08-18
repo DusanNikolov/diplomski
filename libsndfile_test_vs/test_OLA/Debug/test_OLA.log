@@ -1,39 +1,42 @@
-﻿Build started 14-Aug-15 11:39:06.
-     1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" on node 2 (Build target(s)).
+﻿Build started 18-Aug-15 10:10:05.
+     1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ReverbEffect.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main_stereo.cpp MonoStereoConversion.cpp ReverbEffect.cpp
          ReverbEffect.cpp
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(285): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(420): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(425): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(426): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(240): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(375): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(380): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(381): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(388): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(389): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(390): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(391): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(392): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(393): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(398): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(399): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(400): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(401): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(402): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(403): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(412): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(413): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(431): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(432): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
      1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(433): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(434): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(435): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(434): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(435): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
      1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(436): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(437): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(438): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(443): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(444): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(445): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(446): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(447): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(448): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(457): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(458): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(476): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(477): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(478): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(479): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(480): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
-     1>d:\documents\github\diplomski\libsndfile_test_vs\test_ola\reverbeffect.cpp(481): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+         MonoStereoConversion.cpp
+         main_stereo.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Debug\test_OLA.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\AdditionalLibraries\lib "libsndfile-1.lib" "libfftw3f-3.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Debug\test_OLA.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Debug\test_OLA.lib" /MACHINE:X86 Debug\main_stereo.obj
          Debug\MonoStereoConversion.obj
          Debug\ReverbEffect.obj
          test_OLA.vcxproj -> D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Debug\test_OLA.exe
-     1>Done Building Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" (Build target(s)).
+     1>Done Building Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.57
+Time Elapsed 00:00:04.10

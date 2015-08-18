@@ -57,23 +57,11 @@ ReverbEffect::~ReverbEffect() {
 }
 
 void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
-	LARGE_INTEGER start_init_files, end_init_files;
-	LARGE_INTEGER start_init_fftws, end_init_fftws;
-	LARGE_INTEGER start_init_inout, end_init_inout;
-	LARGE_INTEGER start_init_ir, end_init_ir;
-	double eTime_files, eTime_fftws, eTime_inout, eTime_ir;
-
-	//QueryPerformanceFrequency(&frequency);
-
-	QueryPerformanceCounter(&start_init_files);
+	
 	init_files(in, ir, out);
-	QueryPerformanceCounter(&end_init_files);
-	
-	QueryPerformanceCounter(&start_init_fftws);
+
 	init_fftws();
-	QueryPerformanceCounter(&end_init_fftws);
 	
-	QueryPerformanceCounter(&start_init_inout);
 	//initialize input/output buffers
 	if (STEREO == channels) {
 		init_in_out_stereo();
@@ -81,9 +69,7 @@ void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandl
 	else {
 		init_in_out_mono();
 	}
-	QueryPerformanceCounter(&end_init_inout);
-
-	QueryPerformanceCounter(&start_init_ir);
+	
 	//initialize ir buffers & perform FFT(ir)
 	if (STEREO == ir->channels()) {
 		init_ir_stereo();
@@ -91,29 +77,23 @@ void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandl
 	else {
 		init_ir_mono();
 	}
-	QueryPerformanceCounter(&end_init_ir);
-
-	eTime_files = (end_init_files.QuadPart - start_init_files.QuadPart) * 1000.0 / frequency.QuadPart;
-	eTime_fftws = (end_init_fftws.QuadPart - start_init_fftws.QuadPart) * 1000.0 / frequency.QuadPart;
-	eTime_inout = (end_init_inout.QuadPart - start_init_inout.QuadPart) * 1000.0 / frequency.QuadPart;
-	eTime_ir = (end_init_ir.QuadPart - start_init_ir.QuadPart) * 1000.0 / frequency.QuadPart;
-
-	cout << "Files initialization time: " << eTime_files << "[ms]" << endl
-		<< "FFTWS initialization time: " << eTime_fftws << "[ms]" << endl
-		<< "In/Out initialization time: " << eTime_inout << "[ms]" << endl
-		<< "IR initialization time: " << eTime_ir << "[ms]" << endl;
-
-
+	
 }
 
 void ReverbEffect::applyReverb() {
 
+	QueryPerformanceCounter(&start);
 	if (STEREO == channels) {
 		OLA_stereo();
 	}
 	else {
 		OLA_mono();
 	}
+	QueryPerformanceCounter(&end);
+
+	elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
+	cout << "OLA execution time: " << elapsedTime << "[ms]" << endl;
+
 
 }
 
@@ -148,9 +128,6 @@ void ReverbEffect::writeOutNormalized() {
 //somewhat parallelised
 void ReverbEffect::OLA_mono() {
 
-	cache = new float[N * IR_blocks];
-	memset(cache, 0, sizeof(float)* (N * IR_blocks));
-
 	max = 0.0f;
 
 	double avg_dft_time = 0.0f,
@@ -160,7 +137,6 @@ void ReverbEffect::OLA_mono() {
 
 	for (long i = 0; i < in->frames(); i += L) {
 	
-		QueryPerformanceCounter(&start);
 		//FFT input block
 		if (i + L > in->frames()) {
 			DFT(in_l + i, (in->frames() - i), in_src_l, IN_L);
@@ -168,47 +144,38 @@ void ReverbEffect::OLA_mono() {
 		else {
 			DFT(in_l + i, L, in_src_l, IN_L);
 		}
-		QueryPerformanceCounter(&end);
-		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-		avg_dft_time += elapsedTime;
-
+	
 		//multiply & OLA with each piece of IR
 		for (long j = 0; j < IR_blocks; j++) {
 
 			complexMul(OUT_SRC_L, NULL, IN_L, NULL, 0, IR_L, NULL, j);
 			IFT();
 
-			//ovaj for loop pojede dosta vremena!!
-			//valjalo bi da se izmeni ili iskoristi nekako memcpy...
-			QueryPerformanceCounter(&start);
 #pragma omp parallel for schedule(static)\
 	firstprivate(i, j)
 			for (long k = 0; k < N; k++) {
 				if (i + j * M + k < out_sz) {
 					out_l[i + j * M + k] += (in_src_l[k] / N);
 					//perhaps a critical section for this if clause?
-					if (fabs(out_l[i + j * M + k]) > max)
-						max = fabs(out_l[i + j * M + k]);
+					//removed fabs because of its cost, this is better
+					if (out_l[i + j * M + k] < 0) {
+						if (0 - out_l[i + j * M + k] > max)
+							max = 0 - out_l[i + j * M + k];
+					}
+					else {
+						if (out_l[i + j * M + k] > max)
+							max = out_l[i + j * M + k];
+					}
 				}
 			}
-			QueryPerformanceCounter(&end);
 			
 		}
-		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-		avg_ola_conv_time += elapsedTime;
 
 	}
-
-	cout << "Avg FFT(input) time: " << avg_dft_time / (ceil((double)in->frames() / L)) << "[ms]" << endl
-		<< "Avg OLA Convolution for loop time per input block: " << avg_ola_conv_time / (ceil((double)in->frames() / (L * IR_blocks))) << "[ms]" << endl;
 
 }
 //somewhat parallelised
 void ReverbEffect::OLA_stereo() {
-
-	//redundant for now... perhaps use this to lower the complexity...
-	cache = new float[N * IR_blocks];
-	memset(cache, 0, sizeof(float)* (N * IR_blocks));
 
 	max_l = max_r = 0.0f;
 
@@ -217,7 +184,6 @@ void ReverbEffect::OLA_stereo() {
 
 	for (long i = 0; i < in->frames(); i += L) {
 
-		QueryPerformanceCounter(&start);
 		//FFT input block
 		if (i + L > in->frames()) {
 			DFT(in_l + i, (in->frames() - i), in_src_l, IN_L);
@@ -227,11 +193,7 @@ void ReverbEffect::OLA_stereo() {
 			DFT(in_l + i, L, in_src_l, IN_L);
 			DFT(in_r + i, L, in_src_r, IN_R);
 		}
-		QueryPerformanceCounter(&end);
-		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-		avg_dft_time += elapsedTime;
-
-		QueryPerformanceCounter(&start);
+		
 		//multiply & OLA with each piece of IR
 		for (long j = 0; j < IR_blocks; j++) {
 
@@ -246,6 +208,7 @@ void ReverbEffect::OLA_stereo() {
 					out_r[i + j * M + k] += (in_src_r[k] / N);
 					//in linux use openMP 3.1 and add reduction(max:max_l and max_r)
 					// openMP 3.1 supports max reductions!
+					//this whole if/else block removes use of fabs, fabs is very expensive!
 					if (out_l[i + j * M + k] < 0) {
 						if (0 - out_l[i + j * M + k] > max_l)
 							max_l = 0 - out_l[i + j * M + k];
@@ -265,17 +228,9 @@ void ReverbEffect::OLA_stereo() {
 				}
 			}
 			
-
 		}
-		QueryPerformanceCounter(&end);
-
-		elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-		avg_ola_conv_time += elapsedTime;
 		
 	}
-
-	cout << "Avg FFT(input) time: " << avg_dft_time / (ceil((double)in->frames() / L)) << "[ms]" << endl
-		<< "Avg OLA Convolution for loop time per input block: " << avg_ola_conv_time / (IR_blocks) << "[ms]" << endl;
 
 }
 
@@ -342,17 +297,17 @@ void ReverbEffect::complexMul(fftwf_complex *DST_L, fftwf_complex *DST_R, fftwf_
 				dst_l[1] /= 2;
 
 				//R1L2
-				dst_l[0] = (src1_r[0] * src2_l[0])
+				dst_r[0] = (src1_r[0] * src2_l[0])
 					- (src1_r[1] * src2_l[1]);
 
-				dst_l[1] = (src1_r[1] * src2_l[0])
+				dst_r[1] = (src1_r[1] * src2_l[0])
 					+ (src1_r[0] * src2_l[1]);
 
 				//R1R2
-				dst_r[0] = (src1_r[0] * src2_r[0])
+				dst_r[0] += (src1_r[0] * src2_r[0])
 					- (src1_r[1] * src2_r[1]);
 
-				dst_r[1] = (src1_r[1] * src2_r[0])
+				dst_r[1] += (src1_r[1] * src2_r[0])
 					+ (src1_r[0] * src2_r[1]);
 
 				dst_r[0] /= 2;

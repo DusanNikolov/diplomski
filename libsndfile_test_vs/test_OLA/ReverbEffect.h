@@ -17,10 +17,6 @@
 //for MONO reverberation, only left buffers are used...
 //that was done in order to simplify i/o operations and also to maintain more readible code
 
-//TO-DO: Try to lower the big-O complexity of the OLA algo
-//e.g. remove for loop, or reduce it only to the size of overlap, and use memcpy for the rest of the elements
-
-//TO-DO2: If possible, implement the multithreaded approach for the fftw3 library... for now it's a sequential implementation
 
 
 #ifndef REVERB_EFFECT_

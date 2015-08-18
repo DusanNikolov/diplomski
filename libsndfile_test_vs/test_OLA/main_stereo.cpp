@@ -61,10 +61,6 @@ int main(int argc, char** argv) {
 	effect->applyReverb();
 	effect->writeOutNormalized();
 
-	cout << "KRAJ" << endl;
-	int a;
-	cin >> a;
-
 	delete effect;
 
 	return 0;

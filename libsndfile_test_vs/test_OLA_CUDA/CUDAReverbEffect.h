@@ -23,6 +23,8 @@
 #define MONO 1
 #define STEREO 2
 
+
+//In order for OverlapAdd even and odd to work this condition must be true: (2 * M) >= N
 #define N 16384
 #define M 8192
 #define L 4096
@@ -94,6 +96,9 @@ private:
 	//used for normalization after reverb across all used channels (MONO/STEREO)
 	float max, max_l, max_r;
 
+	//time measuring
+	cudaEvent_t start, stop;
+	float time;
 
 };
 

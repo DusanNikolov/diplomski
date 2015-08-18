@@ -82,13 +82,22 @@ void CUDAReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileH
 }
 
 void CUDAReverbEffect::applyReverb() {
+	
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
 
+	cudaEventRecord(start, 0);
 	if (STEREO == channels) {
 		OLA_stereo();
 	}
 	else {
 		OLA_mono();
 	}
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+
+	cudaEventElapsedTime(&time, start, stop);
+	cout << "CUDA_OLA execution time: " << time << "[ms]" << endl;
 
 }
 

@@ -13,14 +13,14 @@
 // Complex operations
 ////////////////////////////////////////////////////////////////////////////////
 
-// Complex addition
-//static __device__ __host__ inline cufftComplex ComplexAdd(cufftComplex a, cufftComplex b)
-//{
-//	cufftComplex c;
-//	c.x = a.x + b.x;
-//	c.y = a.y + b.y;
-//	return c;
-//}
+ //Complex addition
+static __device__ __host__ inline cufftComplex ComplexAdd(cufftComplex a, cufftComplex b)
+{
+	cufftComplex c;
+	c.x = a.x + b.x;
+	c.y = a.y + b.y;
+	return c;
+}
 
 // Complex scale
 //static __device__ __host__ inline cufftComplex ComplexScale(cufftComplex a, float s)
@@ -32,13 +32,13 @@
 //}
 
 // Complex multiplication
-//static __device__ __host__ inline cufftComplex ComplexMul(cufftComplex a, cufftComplex b)
-//{
-//	cufftComplex c;
-//	c.x = a.x * b.x - a.y * b.y;
-//	c.y = a.x * b.y + a.y * b.x;
-//	return c;
-//}
+static __device__ __host__ inline cufftComplex ComplexMul(cufftComplex a, cufftComplex b)
+{
+	cufftComplex c;
+	c.x = a.x * b.x - a.y * b.y;
+	c.y = a.x * b.y + a.y * b.x;
+	return c;
+}
 
 // Complex pointwise multiplication
 //static __global__ void ComplexPointwiseMulAndScale(cufftComplex *a, const cufftComplex *b, int size, float scale)
@@ -59,8 +59,9 @@ static __global__ void ComplexMultiplyMono(cufftComplex *out, const cufftComplex
 	const int threadID = blockIdx.x * blockDim.x + threadIdx.x;
 
 	for (int i = threadID; i < ir_sz; i += numThreads) {
-		out[i].x = ir[i].x * in[i % in_sz].x - ir[i].y * in[i % in_sz].y;
-		out[i].y = ir[i].x * in[i % in_sz].y + ir[i].y * in[i % in_sz].x;
+		out[i] = ComplexMul(ir[i], in[i % in_sz]);
+		//out[i].x = ir[i].x * in[i % in_sz].x - ir[i].y * in[i % in_sz].y;
+		//out[i].y = ir[i].x * in[i % in_sz].y + ir[i].y * in[i % in_sz].x;
 	}
 
 }
@@ -75,6 +76,7 @@ static __global__ void ComplexMultiplyStereo(cufftComplex *out_l, const cufftCom
 	cuComplex local_ir_l, local_ir_r;
 	cuComplex local_out_l, local_out_r;
 
+	//true stereo different left channel! compare to OLA
 	for (int i = threadID; i < ir_sz; i += numThreads) {
 		
 		local_in_l = in_l[i % in_sz];
@@ -87,24 +89,28 @@ static __global__ void ComplexMultiplyStereo(cufftComplex *out_l, const cufftCom
 		//allocate local storage for in_l/in_r and out_l/out_r and after calculation perform writeout
 
 		//L-L
-		local_out_l.x = local_ir_l.x * local_in_l.x - local_ir_l.y * local_in_l.y;
-		local_out_l.y = local_ir_l.x * local_in_l.y + local_ir_l.y * local_in_l.x;
+		local_out_l = ComplexMul(local_ir_l, local_in_l);
+		//local_out_l.x = local_ir_l.x * local_in_l.x - local_ir_l.y * local_in_l.y;
+		//local_out_l.y = local_ir_l.x * local_in_l.y + local_ir_l.y * local_in_l.x;
 	
 		if (trueStereo == 1) {
 			//L-R
-			local_out_l.x = local_ir_r.x * local_in_l.x - local_ir_r.y * local_in_l.y;
-			local_out_l.y = local_ir_r.x * local_in_l.y + local_ir_r.y * local_in_l.x;
+			local_out_l = ComplexAdd(local_out_l, ComplexMul(local_ir_r, local_in_l));
+			//local_out_l.x += local_ir_r.x * local_in_l.x - local_ir_r.y * local_in_l.y;
+			//local_out_l.y += local_ir_r.x * local_in_l.y + local_ir_r.y * local_in_l.x;
 
 			local_out_l.x /= 2;
 			local_out_l.y /= 2;
 
 			//R-L
-			local_out_r.x = local_ir_l.x * local_in_r.x - local_ir_l.y * local_in_r.y;
-			local_out_r.y = local_ir_l.x * local_in_r.y + local_ir_l.y * local_in_r.x;
+			local_out_r = ComplexMul(local_ir_l, local_in_r);
+			//local_out_r.x = local_ir_l.x * local_in_r.x - local_ir_l.y * local_in_r.y;
+			//local_out_r.y = local_ir_l.x * local_in_r.y + local_ir_l.y * local_in_r.x;
 
 			//R-R
-			local_out_r.x = local_ir_r.x * local_in_r.x - local_ir_r.y * local_in_r.y;
-			local_out_r.y = local_ir_r.x * local_in_r.y + local_ir_r.y * local_in_r.x;
+			local_out_r = ComplexAdd(local_out_r, ComplexMul(local_ir_r, local_in_r));
+			//local_out_r.x += local_ir_r.x * local_in_r.x - local_ir_r.y * local_in_r.y;
+			//local_out_r.y += local_ir_r.x * local_in_r.y + local_ir_r.y * local_in_r.x;
 
 			local_out_r.x /= 2;
 			local_out_r.y /= 2;
@@ -113,8 +119,9 @@ static __global__ void ComplexMultiplyStereo(cufftComplex *out_l, const cufftCom
 		else {
 			//Quasi stereo
 			//R-L
-			local_out_r.x = local_ir_l.x * local_in_r.x - local_ir_l.y * local_in_r.y;
-			local_out_r.y = local_ir_l.x * local_in_r.y + local_ir_l.y * local_in_r.x;
+			local_out_r = ComplexMul(local_ir_l, local_in_r);
+			//local_out_r.x = local_ir_l.x * local_in_r.x - local_ir_l.y * local_in_r.y;
+			//local_out_r.y = local_ir_l.x * local_in_r.y + local_ir_l.y * local_in_r.x;
 
 		}
 
