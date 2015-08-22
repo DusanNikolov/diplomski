@@ -75,13 +75,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main_stereo.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="MonoStereoConversion.cpp" />
     <ClCompile Include="ReverbEffect.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MonoStereoConversion.h" />
     <ClInclude Include="ReverbEffect.h" />
+    <ClInclude Include="Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

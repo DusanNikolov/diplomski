@@ -24,7 +24,8 @@
 
 //included for the time measuring purposes
 //when CUDA gets implemented in the other version, use CUDA routines here also to provide better consistency
-#include <Windows.h>
+
+#include "Timer.h"
 
 #include <sndfile.hh>
 #include <fftw3.h>
@@ -101,9 +102,7 @@ private:
 
 	//for time measuring purposes
 private:
-	LARGE_INTEGER frequency;        // ticks per second
-	LARGE_INTEGER start, end;           // ticks
-	double elapsedTime;
+	Timer timer;
 
 };
 

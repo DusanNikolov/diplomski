@@ -11,6 +11,9 @@ using namespace std;
 
 CUDAReverbEffect::CUDAReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+
 	//remove this and set OMP_NUM_THREADS from caller space
 	omp_set_num_threads(8);
 
@@ -61,8 +64,15 @@ void CUDAReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileH
 
 	init_files(in, ir, out);
 
+	cudaEventRecord(start, 0);
 	init_fftws();
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
 
+	cudaEventElapsedTime(&time, start, stop);
+	cout << "init_cuffts execution time: " << time << "[ms]" << endl;
+
+	//these methods are exactly the same in both implementations, so no measuring here
 	//initialize input/output buffers
 	if (STEREO == channels) {
 		init_in_out_stereo();
@@ -72,19 +82,22 @@ void CUDAReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileH
 	}
 
 	//initialize ir buffers & perform FFT(ir)
+	cudaEventRecord(start, 0);
 	if (STEREO == ir->channels()) {
 		init_ir_stereo();
 	}
 	else {
 		init_ir_mono();
 	}
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+
+	cudaEventElapsedTime(&time, start, stop);
+	cout << "init_ir execution time: " << time << "[ms]" << endl;
 
 }
 
 void CUDAReverbEffect::applyReverb() {
-	
-	cudaEventCreate(&start);
-	cudaEventCreate(&stop);
 
 	cudaEventRecord(start, 0);
 	if (STEREO == channels) {
@@ -97,7 +110,7 @@ void CUDAReverbEffect::applyReverb() {
 	cudaEventSynchronize(stop);
 
 	cudaEventElapsedTime(&time, start, stop);
-	cout << "CUDA_OLA execution time: " << time << "[ms]" << endl;
+	cout << "REVERB execution time: " << time << "[ms]" << endl;
 
 }
 

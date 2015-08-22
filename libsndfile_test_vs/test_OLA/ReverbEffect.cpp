@@ -6,14 +6,14 @@
 #include <omp.h>
 
 #include <iostream>
+#include <cstring>
+#include <cmath>
 using namespace std;
 
 ReverbEffect::ReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
-	QueryPerformanceFrequency(&frequency);
-
 	//better to set this up from command line!
-	omp_set_num_threads(8);
+	//omp_set_num_threads(8);
 
 	initialize(in, ir, out);
 
@@ -58,9 +58,15 @@ ReverbEffect::~ReverbEffect() {
 
 void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 	
+	timer = Timer();
+
 	init_files(in, ir, out);
 
+	timer.start();
 	init_fftws();
+	timer.stop();
+	cout << "init_fftws execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]" << endl;
+
 	
 	//initialize input/output buffers
 	if (STEREO == channels) {
@@ -70,6 +76,7 @@ void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandl
 		init_in_out_mono();
 	}
 	
+	timer.start();
 	//initialize ir buffers & perform FFT(ir)
 	if (STEREO == ir->channels()) {
 		init_ir_stereo();
@@ -77,23 +84,22 @@ void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandl
 	else {
 		init_ir_mono();
 	}
-	
+	timer.stop();
+	cout << "init_ir execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]" << endl;
+
 }
 
 void ReverbEffect::applyReverb() {
 
-	QueryPerformanceCounter(&start);
+	timer.start();
 	if (STEREO == channels) {
 		OLA_stereo();
 	}
 	else {
 		OLA_mono();
 	}
-	QueryPerformanceCounter(&end);
-
-	elapsedTime = (end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
-	cout << "OLA execution time: " << elapsedTime << "[ms]" << endl;
-
+	timer.stop();
+	cout << "FFTW_OLA execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]" << endl;
 
 }
 

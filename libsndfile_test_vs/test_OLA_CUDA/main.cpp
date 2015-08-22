@@ -52,6 +52,8 @@ int main(int argc, char** argv) {
 
 	out->command(SFC_SET_UPDATE_HEADER_AUTO, NULL, SF_TRUE);
 
+	cout << "::::: " << argv[1] << " : " << argv[2] << " :::::" << endl;
+
 	CUDAReverbEffect* effect = new CUDAReverbEffect(in, ir, out);
 
 	effect->applyReverb();
