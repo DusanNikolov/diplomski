@@ -13,7 +13,7 @@ using namespace std;
 ReverbEffect::ReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
 
 	//better to set this up from command line!
-	//omp_set_num_threads(8);
+	omp_set_num_threads(1);
 
 	initialize(in, ir, out);
 

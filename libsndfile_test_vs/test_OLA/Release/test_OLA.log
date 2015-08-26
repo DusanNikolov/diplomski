@@ -1,0 +1,45 @@
+﻿Build started 25-Aug-15 17:43:27.
+     1>Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\AdditionalLibraries\include /Zi /nologo /W3 /WX- /sdl /Ox /Oi /Ot /Oy- /GL /D _MBCS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /openmp- /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp MonoStereoConversion.cpp ReverbEffect.cpp Timer.cpp
+         main.cpp
+         MonoStereoConversion.cpp
+         ReverbEffect.cpp
+     1>ReverbEffect.cpp(246): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(381): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(386): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(387): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(394): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(395): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(396): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(397): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(398): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(399): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(404): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(405): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(406): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(407): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(408): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(409): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(418): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(419): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(437): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(438): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(439): warning C4244: 'initializing' : conversion from 'sf_count_t' to 'unsigned int', possible loss of data
+     1>ReverbEffect.cpp(440): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(441): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+     1>ReverbEffect.cpp(442): warning C4244: 'argument' : conversion from 'sf_count_t' to 'size_t', possible loss of data
+         Timer.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Release\test_OLA.exe" /NOLOGO /LIBPATH:C:\AdditionalLibraries\lib "libsndfile-1.lib" "libfftw3f-3.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Release\test_OLA.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Release\test_OLA.lib" /MACHINE:X86 /SAFESEH Release\main.obj
+         Release\MonoStereoConversion.obj
+         Release\ReverbEffect.obj
+         Release\Timer.obj
+         Generating code
+         Finished generating code
+         test_OLA.vcxproj -> D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\Release\test_OLA.exe
+     1>Done Building Project "D:\Documents\GitHub\Diplomski\libsndfile_test_vs\test_OLA\test_OLA.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.60
