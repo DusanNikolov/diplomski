@@ -1,6 +1,10 @@
 # diplomski
 Convolution reverberation implementation using FFTW and cuFFT libraries for cross-comparison
 
-Sequential implementation using FFTW library is in the folder test_OLA.
+CPU implementation using FFTW library and OpenMP is in test_OLA
+GPU implementation using cuFFT library is in test_OLA_CUDA
 
-GPU implementation using cuFFT library will eventually reside in the folder test_OLA_CUDA
+For compilation using Visual Studio IDE see Readme files
+
+by Dusan Nikolov
+August 2015
