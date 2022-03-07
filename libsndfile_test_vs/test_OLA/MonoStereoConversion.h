@@ -1,5 +1,4 @@
-#ifndef MS_CONVERSION_H
-#define MS_CONVERSION_H
+#pragma once
 
 #include <sndfile.h>
 
@@ -14,5 +13,3 @@ public:
 	
 	static void normalize(float* buffer, sf_count_t size, float maxValue);
 };
-
-#endif

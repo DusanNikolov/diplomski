@@ -12,8 +12,7 @@
 // Copyright (c) 2003 Song Ho Ahn
 //////////////////////////////////////////////////////////////////////////////
 
-#ifndef TIMER_H_DEF
-#define TIMER_H_DEF
+#pragma once
 
 #ifdef _WIN32   // Windows system specific
 #include <windows.h>
@@ -52,5 +51,3 @@ private:
     timeval endCount;                           //
 #endif
 };
-
-#endif // TIMER_H_DEF

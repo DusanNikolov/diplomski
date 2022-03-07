@@ -17,10 +17,7 @@
 //for MONO reverberation, only left buffers are used...
 //that was done in order to simplify i/o operations and also to maintain more readible code
 
-
-
-#ifndef REVERB_EFFECT_
-#define REVERB_EFFECT_
+#pragma once
 
 //included for the time measuring purposes
 //when CUDA gets implemented in the other version, use CUDA routines here also to provide better consistency
@@ -105,5 +102,3 @@ private:
 	Timer timer;
 
 };
-
-#endif
