@@ -1,5 +1,3 @@
-//Method definitions of ReverbEffect class
-
 #include "ReverbEffect.h"
 #include "MonoStereoConversion.h"
 
@@ -8,6 +6,7 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
+
 using namespace std;
 
 ReverbEffect::ReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out) {
@@ -115,7 +114,7 @@ void ReverbEffect::writeOutNormalized() {
 			out_l[i] *= scale_l;
 			out_r[i] *= scale_r;
 		}
-		MonoStereoConversion::combine2Channels(out_l, out_r, out_stereo, in->frames() + ir->frames() - 1, &max);
+		mono_stereo_conversion::combine2Channels(out_l, out_r, out_stereo, in->frames() + ir->frames() - 1, &max);
 
 		out->writef(out_stereo, in->frames() + ir->frames() - 1);
 	}
@@ -398,7 +397,7 @@ void ReverbEffect::init_in_out_stereo() {
 	memset(in_l, 0, sizeof(float)* in->frames());
 	memset(in_r, 0, sizeof(float)* in->frames());
 	in->readf(in_stereo, in->frames());
-	MonoStereoConversion::extractBothChannels(in_stereo, in_l, in_r, in_sz);
+	mono_stereo_conversion::extractBothChannels(in_stereo, in_l, in_r, in_sz);
 
 	out_sz = (in->frames() + ir->frames() - 1) * 2;
 	out_l = new float[out_sz / 2];
@@ -441,7 +440,7 @@ void ReverbEffect::init_ir_stereo() {
 	memset(ir_l, 0, sizeof(float)* ir_sz / 2);
 	memset(ir_r, 0, sizeof(float)* ir_sz / 2);
 	ir->readf(ir_stereo, ir->frames());
-	MonoStereoConversion::extractBothChannels(ir_stereo, ir_l, ir_r, ir_sz);
+	mono_stereo_conversion::extractBothChannels(ir_stereo, ir_l, ir_r, ir_sz);
 
 	for (long i = 0; i < ir_sz / 2; i += M) {
 		if (i + M > ir->frames()) {
