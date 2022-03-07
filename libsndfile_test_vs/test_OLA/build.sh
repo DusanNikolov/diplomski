@@ -14,7 +14,7 @@ fi
 
 pushd "${BUILD_DIR}"
 echo "Building..."
-clang++ -o main ../main.cpp ../ReverbEffect.cpp ../MonoStereoConversion.cpp ../Timer.cpp -fopenmp=libomp -lfftw3 -lfftw3f `pkgconf --libs sndfile`
+clang++ -o main ../src/main.cpp ../src/ReverbEffect.cpp ../src/MonoStereoConversion.cpp ../src/Timer.cpp -fopenmp=libomp -lfftw3 -lfftw3f `pkgconf --libs sndfile`
 popd
 
 echo "Done!"
