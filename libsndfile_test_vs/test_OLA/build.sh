@@ -14,7 +14,8 @@ fi
 
 pushd "${BUILD_DIR}"
 echo "Building..."
-clang++ -o main ../src/main.cpp ../src/ReverbEffect.cpp ../src/MonoStereoConversion.cpp ../src/Timer.cpp -fopenmp=libomp -lfftw3 -lfftw3f `pkgconf --libs sndfile`
+cmake .. -GNinja
+ninja
 popd
 
 echo "Done!"
