@@ -10,7 +10,18 @@ BinPackParameters: false
 BreakBeforeBraces: Allman
 ColumnLimit:     100
 IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           '^<(fftw3|sndfile)'
+    Priority:        3
+  - Regex:           '<[[:alnum:].]+>'
+    Priority:        4
+  - Regex:           '^".*h"'
+    Priority:        2
+  - Regex:           '.*'
+    Priority:        1
 IndentWidth:     4
+
+SortIncludes: CaseInsensitive
 SpaceBeforeParens: ControlStatements
 Standard:        Latest
 TabWidth:        4
