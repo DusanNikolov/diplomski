@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.16.3)
 
 project(reverberate)
 
+option(
+  ENABLE_ASAN
+  "Enables AddressSanitizer"
+  OFF
+)
+
 find_package(OpenMP REQUIRED)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -18,6 +24,15 @@ add_executable(
 set_target_properties(
   ${PROJECT_NAME} PROPERTIES CXX_STANDARD 17 CMAKE_CXX_STANDARD_REQUIRED ON
 )
+
+if(${ENABLE_ASAN})
+  target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
+  target_link_options(
+    ${PROJECT_NAME}
+    PRIVATE
+    -fsanitize=address
+  )
+endif()
 
 target_link_libraries(
   ${PROJECT_NAME}
