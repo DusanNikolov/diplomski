@@ -1,0 +1,17 @@
+---
+Language:        Cpp
+BasedOnStyle:  LLVM
+
+AllowAllArgumentsOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+BinPackArguments: false
+BinPackParameters: false
+ColumnLimit:     100
+IncludeBlocks: Regroup
+IndentWidth:     4
+SpaceBeforeParens: ControlStatements
+Standard:        Latest
+TabWidth:        4
+...
+
