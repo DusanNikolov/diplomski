@@ -3,7 +3,7 @@
 // =========
 // High Resolution Timer.
 // This timer is able to measure the elapsed time with 1 micro-second accuracy
-// in both Windows, Linux and Unix system 
+// in both Windows, Linux and Unix system
 //
 //  AUTHOR: Song Ho Ahn (song.ahn@gmail.com)
 // CREATED: 2003-01-13
@@ -13,6 +13,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Timer.h"
+
 #include <stdlib.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -34,16 +35,10 @@ Timer::Timer()
     endTimeInMicroSec = 0;
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // distructor
 ///////////////////////////////////////////////////////////////////////////////
-Timer::~Timer()
-{
-}
-
-
+Timer::~Timer() {}
 
 ///////////////////////////////////////////////////////////////////////////////
 // start timer.
@@ -58,8 +53,6 @@ void Timer::start()
     gettimeofday(&startCount, NULL);
 #endif
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // stop the timer.
@@ -76,8 +69,6 @@ void Timer::stop()
 #endif
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // compute elapsed time in micro-second resolution.
 // other getElapsedTime will call this first, then convert to correspond resolution.
@@ -85,13 +76,13 @@ void Timer::stop()
 double Timer::getElapsedTimeInMicroSec()
 {
 #ifdef WIN32
-    if(!stopped)
+    if (!stopped)
         QueryPerformanceCounter(&endCount);
 
     startTimeInMicroSec = startCount.QuadPart * (1000000.0 / frequency.QuadPart);
     endTimeInMicroSec = endCount.QuadPart * (1000000.0 / frequency.QuadPart);
 #else
-    if(!stopped)
+    if (!stopped)
         gettimeofday(&endCount, NULL);
 
     startTimeInMicroSec = (startCount.tv_sec * 1000000.0) + startCount.tv_usec;
@@ -101,32 +92,17 @@ double Timer::getElapsedTimeInMicroSec()
     return endTimeInMicroSec - startTimeInMicroSec;
 }
 
-
-
 ///////////////////////////////////////////////////////////////////////////////
 // divide elapsedTimeInMicroSec by 1000
 ///////////////////////////////////////////////////////////////////////////////
-double Timer::getElapsedTimeInMilliSec()
-{
-    return this->getElapsedTimeInMicroSec() * 0.001;
-}
-
-
+double Timer::getElapsedTimeInMilliSec() { return this->getElapsedTimeInMicroSec() * 0.001; }
 
 ///////////////////////////////////////////////////////////////////////////////
 // divide elapsedTimeInMicroSec by 1000000
 ///////////////////////////////////////////////////////////////////////////////
-double Timer::getElapsedTimeInSec()
-{
-    return this->getElapsedTimeInMicroSec() * 0.000001;
-}
-
-
+double Timer::getElapsedTimeInSec() { return this->getElapsedTimeInMicroSec() * 0.000001; }
 
 ///////////////////////////////////////////////////////////////////////////////
 // same as getElapsedTimeInSec()
 ///////////////////////////////////////////////////////////////////////////////
-double Timer::getElapsedTime()
-{
-    return this->getElapsedTimeInSec();
-}
+double Timer::getElapsedTime() { return this->getElapsedTimeInSec(); }

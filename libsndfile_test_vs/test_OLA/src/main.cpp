@@ -1,72 +1,81 @@
-//test OLA - overlap & add
-//mono files are ok...
-//TO-DO: True stereo convolution (bineural IR & stereo input) requires 4 convolutions (Ll, Lr, Rl, Rr)!
+// test OLA - overlap & add
+// mono files are ok...
+// TO-DO: True stereo convolution (bineural IR & stereo input) requires 4 convolutions (Ll, Lr, Rl,
+// Rr)!
 
-
-#include <iostream>
-#include <cstring>
 #include <cmath>
+#include <cstring>
+#include <iostream>
 using namespace std;
-
-#include <sndfile.hh>
-#include <fftw3.h>
 
 #include "ReverbEffect.h"
 
-int main(int argc, char** argv) {
+#include <fftw3.h>
+#include <sndfile.hh>
 
-	if (argc < 3) {
-		cerr << "Not enough parameters, see README for instructions!" << endl;
-		return -1;
-	}
+int main(int argc, char **argv)
+{
 
-	SndfileHandle *in, *ir, *out;
+    if (argc < 3)
+    {
+        cerr << "Not enough parameters, see README for instructions!" << endl;
+        return -1;
+    }
 
-	in = new SndfileHandle(argv[1]);
-	if (in->error() != SF_ERR_NO_ERROR) {
-		cerr << "Input file not recognized!" << endl;
+    SndfileHandle *in, *ir, *out;
 
-		delete in;
-		return -1;
-	}
+    in = new SndfileHandle(argv[1]);
+    if (in->error() != SF_ERR_NO_ERROR)
+    {
+        cerr << "Input file not recognized!" << endl;
 
-	ir = new SndfileHandle(argv[2]);
-	if (ir->error() != SF_ERR_NO_ERROR) {
-		cerr << "IR file not recognized!" << endl;
+        delete in;
+        return -1;
+    }
 
-		delete in;
-		delete ir;
-		return -1;
-	}
+    ir = new SndfileHandle(argv[2]);
+    if (ir->error() != SF_ERR_NO_ERROR)
+    {
+        cerr << "IR file not recognized!" << endl;
 
-	int in_fn_len = strlen(argv[1]);
-	char *out_fn = new char[in_fn_len + 4];
-	
-	strncpy(out_fn, argv[1], sizeof(char) * (in_fn_len - 4));
-	strcpy(out_fn + in_fn_len - 4, "_out.wav");
+        delete in;
+        delete ir;
+        return -1;
+    }
 
-	out = new SndfileHandle(out_fn, SFM_WRITE, SF_FORMAT_WAV | SF_FORMAT_PCM_16, in->channels(), 44100);
-	if (out->error() != SF_ERR_NO_ERROR) {
-		cerr << "Output file not formed!" << endl;
+    int in_fn_len = strlen(argv[1]);
+    char *out_fn = new char[in_fn_len + 4];
 
-		delete in;
-		delete ir;
-		delete out;
-		return -1;
-	}
+    strncpy(out_fn, argv[1], sizeof(char) * (in_fn_len - 4));
+    strcpy(out_fn + in_fn_len - 4, "_out.wav");
 
-	out->command(SFC_SET_UPDATE_HEADER_AUTO, NULL, SF_TRUE);
+    out = new SndfileHandle(out_fn,
+                            SFM_WRITE,
+                            SF_FORMAT_WAV | SF_FORMAT_PCM_16,
+                            in->channels(),
+                            44100);
+    if (out->error() != SF_ERR_NO_ERROR)
+    {
+        cerr << "Output file not formed!" << endl;
 
-	cout << "::::: " << argv[1] << " : " << argv[2] << " :::::" << endl;
+        delete in;
+        delete ir;
+        delete out;
+        return -1;
+    }
 
-	ReverbEffect* effect = new ReverbEffect(in, ir, out);
+    out->command(SFC_SET_UPDATE_HEADER_AUTO, NULL, SF_TRUE);
 
-	effect->applyReverb();
-	effect->writeOutNormalized();
+    cout << "::::: " << argv[1] << " : " << argv[2] << " :::::" << endl;
 
-	cout << endl;
+    ReverbEffect *effect = new ReverbEffect(in, ir, out);
 
-	delete effect;
+    effect->applyReverb();
+    effect->writeOutNormalized();
 
-	return 0;
+    cout << endl;
+
+    delete effect;
+
+    return 0;
 }
