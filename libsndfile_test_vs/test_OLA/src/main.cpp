@@ -3,15 +3,16 @@
 // TO-DO: True stereo convolution (bineural IR & stereo input) requires 4 convolutions (Ll, Lr, Rl,
 // Rr)!
 
-#include <cmath>
-#include <cstring>
-#include <iostream>
-using namespace std;
-
 #include "ReverbEffect.h"
 
 #include <fftw3.h>
 #include <sndfile.hh>
+
+#include <cmath>
+#include <cstring>
+#include <iostream>
+
+using namespace std;
 
 int main(int argc, char **argv)
 {

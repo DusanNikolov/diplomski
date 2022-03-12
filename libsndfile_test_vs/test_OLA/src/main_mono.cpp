@@ -3,11 +3,12 @@
 // TO-DO: True stereo convolution (bineural IR & stereo input) requires 4 convolutions (Ll, Lr, Rl,
 // Rr)!
 
-#include <iostream>
-using namespace std;
-
 #include <fftw3.h>
 #include <sndfile.hh>
+
+#include <iostream>
+
+using namespace std;
 
 #define N 2048
 #define M 1024
