@@ -12,14 +12,12 @@
 #include <cstring>
 #include <iostream>
 
-using namespace std;
-
 int main(int argc, char **argv)
 {
 
     if (argc < 3)
     {
-        cerr << "Not enough parameters, see README for instructions!" << endl;
+        std::cerr << "Not enough parameters, see README for instructions!" << std::endl;
         return -1;
     }
 
@@ -28,7 +26,7 @@ int main(int argc, char **argv)
     in = new SndfileHandle(argv[1]);
     if (in->error() != SF_ERR_NO_ERROR)
     {
-        cerr << "Input file not recognized!" << endl;
+        std::cerr << "Input file not recognized!" << std::endl;
 
         delete in;
         return -1;
@@ -37,7 +35,7 @@ int main(int argc, char **argv)
     ir = new SndfileHandle(argv[2]);
     if (ir->error() != SF_ERR_NO_ERROR)
     {
-        cerr << "IR file not recognized!" << endl;
+        std::cerr << "IR file not recognized!" << std::endl;
 
         delete in;
         delete ir;
@@ -57,7 +55,7 @@ int main(int argc, char **argv)
                             44100);
     if (out->error() != SF_ERR_NO_ERROR)
     {
-        cerr << "Output file not formed!" << endl;
+        std::cerr << "Output file not formed!" << std::endl;
 
         delete in;
         delete ir;
@@ -67,14 +65,14 @@ int main(int argc, char **argv)
 
     out->command(SFC_SET_UPDATE_HEADER_AUTO, NULL, SF_TRUE);
 
-    cout << "::::: " << argv[1] << " : " << argv[2] << " :::::" << endl;
+    std::cout << "::::: " << argv[1] << " : " << argv[2] << " :::::" << std::endl;
 
     ReverbEffect *effect = new ReverbEffect(in, ir, out);
 
     effect->applyReverb();
     effect->writeOutNormalized();
 
-    cout << endl;
+    std::cout << std::endl;
 
     delete effect;
 

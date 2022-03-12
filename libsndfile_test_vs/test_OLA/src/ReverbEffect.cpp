@@ -7,8 +7,6 @@
 #include <iostream>
 #include <omp.h>
 
-using namespace std;
-
 ReverbEffect::ReverbEffect(SndfileHandle *in, SndfileHandle *ir, SndfileHandle *out)
 {
 
@@ -79,7 +77,8 @@ void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandl
     timer.start();
     init_fftws();
     timer.stop();
-    cout << "init_fftws execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]" << endl;
+    std::cout << "init_fftws execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]"
+              << std::endl;
 
     // initialize input/output buffers
     if (STEREO == channels)
@@ -102,7 +101,8 @@ void ReverbEffect::initialize(SndfileHandle *in, SndfileHandle *ir, SndfileHandl
         init_ir_mono();
     }
     timer.stop();
-    cout << "init_ir execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]" << endl;
+    std::cout << "init_ir execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]"
+              << std::endl;
 }
 
 void ReverbEffect::applyReverb()
@@ -118,7 +118,8 @@ void ReverbEffect::applyReverb()
         OLA_mono();
     }
     timer.stop();
-    cout << "FFTW_OLA execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]" << endl;
+    std::cout << "FFTW_OLA execution time: " << timer.getElapsedTimeInMilliSec() << "[ms]"
+              << std::endl;
 }
 
 // parallelised
