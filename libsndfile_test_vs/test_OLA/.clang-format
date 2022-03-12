@@ -7,6 +7,7 @@ AllowAllConstructorInitializersOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
 BinPackArguments: false
 BinPackParameters: false
+BreakBeforeBraces: Allman
 ColumnLimit:     100
 IncludeBlocks: Regroup
 IndentWidth:     4
